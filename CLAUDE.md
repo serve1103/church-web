@@ -2,12 +2,13 @@
 
 ## 프로젝트 개요
 - 남문교회 홈페이지 리뉴얼 (XpressEngine → Next.js)
-- 정적 사이트 (MDX 기반 콘텐츠 관리, DB 없음)
+- Sanity CMS로 콘텐츠 관리 (비개발자가 관리자 화면에서 직접 작성)
 - 상세 PRD: `docs/PRD.md`
 
 ## 기술 스택
 - Next.js 15 (App Router) + TypeScript + Tailwind CSS
-- 콘텐츠: MDX (마크다운)
+- CMS: Sanity (헤드리스 CMS, `next-sanity` 연동)
+- 이미지: Sanity Image CDN + next/image
 - 배포: Vercel
 - 패키지 매니저: npm
 
@@ -16,7 +17,8 @@
 ### 파일/디렉토리
 - 컴포넌트: `src/components/` 하위, PascalCase 파일명 (예: `Header.tsx`)
 - 페이지: `src/app/` 하위, App Router 규칙 (page.tsx, layout.tsx)
-- 콘텐츠: `src/content/` 하위, MDX 파일
+- Sanity 스키마: `src/sanity/schemas/` 하위
+- Sanity 설정: `src/sanity/lib/` 하위 (client, image, queries)
 - 유틸리티: `src/lib/` 하위
 
 ### 컴포넌트
@@ -36,9 +38,11 @@
 - 본문 폰트: Pretendard, 최소 16px
 - 최소 터치 영역: 44px
 
-### 콘텐츠
-- 설교 영상: YouTube 임베드 방식
-- 이미지: next/image 사용 필수, public/images/ 하위 관리
+### 콘텐츠 (Sanity CMS)
+- 동적 콘텐츠 (공지, 주보, 설교, 앨범 등): Sanity에서 관리
+- 설교 영상: YouTube 임베드 방식 (Sanity에 URL 저장)
+- 이미지: Sanity Image CDN 사용 (next-sanity의 urlFor 헬퍼)
+- 정적 이미지 (로고 등): public/images/ 하위 관리
 - 지도: 카카오맵 임베드
 
 ## 주의사항
