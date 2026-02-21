@@ -1,84 +1,97 @@
-# 남문교회 홈페이지 프로젝트 컨벤션
+# CLAUDE.md
+
+이 파일은 Claude Code (claude.ai/code)가 이 저장소에서 작업할 때 참고하는 지침입니다.
 
 ## 프로젝트 개요
-- 남문교회 홈페이지 리뉴얼 (XpressEngine → Next.js)
-- Sanity CMS로 콘텐츠 관리 (비개발자가 관리자 화면에서 직접 작성)
-- YouTube 채널: [@official남문교회](https://www.youtube.com/@official%EB%82%A8%EB%AC%B8%EA%B5%90%ED%9A%8C)
-- 유지보수: 개발자가 AI 도움을 받아 직접 관리
-- 상세 PRD: `docs/PRD.md`
+
+남문교회 홈페이지 리뉴얼 (XpressEngine → Next.js + Sanity CMS). 상세 요구사항은 `docs/PRD.md` 참고.
+
+## 명령어
+
+```bash
+npm run dev          # Next.js 개발 서버 (localhost:3000)
+npm run build        # 프로덕션 빌드
+npm run lint         # ESLint 검사
+npm run type-check   # TypeScript 타입 검사 (tsc --noEmit)
+```
+
+Sanity Studio는 `/studio` 경로에 임베드 (별도 프로젝트 아님).
 
 ## 기술 스택
-- Next.js 15 (App Router) + TypeScript + Tailwind CSS
-- CMS: Sanity (헤드리스 CMS, `next-sanity` 연동)
-- Visual Editing: `@sanity/presentation` + `@sanity/visual-editing`
-- 이미지: Sanity Image CDN + next/image
-- 배포: Vercel
-- 패키지 매니저: npm
 
-## 아키텍처 원칙
-1. **명확한 디렉토리 구조**: 파일 위치만 보고 역할을 알 수 있어야 함
-2. **타입 안전성**: Sanity 스키마 ↔ TypeScript 타입 일치
-3. **컴포넌트 단일 책임**: 하나의 컴포넌트 = 하나의 역할
-4. **블록 확장성**: 새 블록 = 스키마 1개 + 컴포넌트 1개만 추가
-5. **테마 변경 용이**: CSS 변수 기반, 한 곳만 수정하면 전체 반영
-6. **쿼리 분리**: GROQ 쿼리는 `src/sanity/lib/queries.ts`에서 중앙 관리
+- **Next.js 15** (App Router) + TypeScript + Tailwind CSS
+- **Sanity** CMS (`next-sanity`, `@sanity/presentation`, `@sanity/visual-editing`)
+- **Vercel** 배포, **npm** 패키지 매니저
+
+## 아키텍처
+
+### 데이터 흐름
+
+```
+Sanity CMS (콘텐츠) → GROQ 쿼리 → Next.js Server Components → UI
+                                    ↕
+                      Sanity Visual Editing (Draft Mode, /studio)
+```
+
+### 블록 시스템
+
+페이지는 재사용 가능한 **블록**(Sanity array of objects)을 조립하여 구성. 새 블록 추가 시:
+
+1. 스키마: `src/sanity/schemas/blocks/<블록명>.ts`
+2. 컴포넌트: `src/components/blocks/<블록명>.tsx`
+3. 매핑 등록: `src/components/blocks/BlockRenderer.tsx`
+4. 타입 정의: `src/types/`
+
+### 주요 디렉토리
+
+- `src/sanity/schemas/` — Sanity 콘텐츠 타입 및 블록 스키마 정의
+- `src/sanity/lib/queries.ts` — 모든 GROQ 쿼리 중앙 관리 (컴포넌트에 분산 금지)
+- `src/sanity/lib/client.ts` — Sanity 클라이언트 설정
+- `src/components/blocks/` — 블록 렌더링 컴포넌트, `BlockRenderer.tsx`에서 매핑
+- `src/components/layout/` — Header, Footer, Navigation
+- `src/components/ui/` — 공통 UI 프리미티브 (버튼, 카드 등)
+- `src/types/` — Sanity 스키마에 대응하는 TypeScript 타입
+- `src/app/studio/[[...tool]]/` — Sanity Studio 임베드 라우트
 
 ## 코딩 컨벤션
 
-### 파일/디렉토리
-- 컴포넌트: `src/components/` 하위, PascalCase 파일명 (예: `Header.tsx`)
-- 페이지: `src/app/` 하위, App Router 규칙 (page.tsx, layout.tsx)
-- Sanity 스키마: `src/sanity/schemas/` 하위
-- Sanity 설정: `src/sanity/lib/` 하위 (client, image, queries)
-- 유틸리티: `src/lib/` 하위
-- 타입 정의: `src/types/` 하위
-
 ### 컴포넌트
-- 함수형 컴포넌트 + arrow function
-- 'use client'는 꼭 필요한 경우에만 (기본은 Server Component)
-- Props는 interface로 정의
+- 함수형 컴포넌트 + arrow function, 기본은 Server Component
+- `'use client'`는 인터랙션/훅이 필요한 경우에만
+- Props는 `interface`로 정의
 
 ### 스타일
 - Tailwind CSS만 사용 (별도 CSS 파일 생성 금지)
-- 글로벌 스타일: `src/styles/globals.css`의 @layer만 사용
-- 반응형: mobile-first (sm → md → lg)
-- **컬러는 반드시 CSS 변수 사용** (하드코딩 금지)
+- 글로벌 스타일: `src/styles/globals.css`에서 `@layer`만 사용
+- 반응형: mobile-first (`sm → md → lg`)
+- **컬러 하드코딩 금지** — 반드시 CSS 변수 또는 Tailwind 테마 토큰 사용
 
-### 디자인 토큰 (CSS 변수)
+### 테마 시스템 (CSS 변수)
+
+모든 컬러는 `:root`의 CSS 커스텀 프로퍼티로 관리하고, `tailwind.config.ts`의 `theme.extend.colors`에 매핑. 사이트 컬러를 변경하려면 `globals.css`의 `:root` 변수만 수정.
+
 ```css
 :root {
-  --color-primary: #1E3A5F;       /* 네이비 */
-  --color-primary-light: #4A90D9; /* 라이트 블루 */
-  --color-accent: #C8A951;        /* 골드 */
+  --color-primary: #1E3A5F;
+  --color-primary-light: #4A90D9;
+  --color-accent: #C8A951;
   --color-bg: #FFFFFF;
   --color-surface: #F8F9FA;
   --color-text: #1A1A1A;
   --color-text-secondary: #6B7280;
 }
 ```
-- Tailwind에서 `theme.extend.colors`에 CSS 변수 매핑
-- 본문 폰트: Pretendard, 최소 16px
-- 최소 터치 영역: 44px
 
-### 콘텐츠 (Sanity CMS)
-- 동적 콘텐츠 (공지, 주보, 설교, 앨범 등): Sanity에서 관리
-- 페이지 구성: 블록(모듈) 조립 방식 (Sanity array of objects)
-- Visual Editing: 각 컴포넌트에 `encodeDataAttribute` 적용하여 클릭-편집 연동
-- 설교 영상: YouTube 임베드 방식 (Sanity에 URL 저장)
-- 이미지: Sanity Image CDN 사용 (next-sanity의 urlFor 헬퍼)
-- 정적 이미지 (로고 등): public/images/ 하위 관리
+### Sanity 콘텐츠
+- 동적 콘텐츠 (공지, 설교, 앨범, 주보 등): Sanity에서 관리
+- 설교 영상: YouTube 임베드 (Sanity에 URL 저장)
+- 이미지: Sanity Image CDN (`next-sanity`의 `urlFor` 헬퍼)
+- 정적 이미지 (로고 등): `public/images/`
 - 지도: 카카오맵 임베드
 
-### 블록 추가 시 체크리스트
-1. `src/sanity/schemas/blocks/` 에 스키마 파일 생성
-2. `src/components/blocks/` 에 렌더링 컴포넌트 생성
-3. `src/components/blocks/BlockRenderer.tsx` 에 매핑 추가
-4. `src/types/` 에 타입 정의 추가
-
-## 주의사항
-- 다크모드 구현하지 않음
-- 로그인/회원가입 기능 없음 (관리자는 Sanity 로그인)
-- IE 지원하지 않음
-- 한국어 전용 (다국어 불필요)
-- 관리자 화면: PC 전용 (모바일 관리 미지원)
-- 컬러를 하드코딩하지 않음 (반드시 CSS 변수 또는 Tailwind 토큰 사용)
+### 디자인 제약
+- 본문 폰트: Pretendard, 최소 16px
+- 최소 터치 영역: 44px
+- 다크모드 없음, 다국어 없음, 사용자 인증 없음
+- 관리자(Sanity Studio): PC 전용
+- 한국어 전용
