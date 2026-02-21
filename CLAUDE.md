@@ -8,6 +8,7 @@
 ## 기술 스택
 - Next.js 15 (App Router) + TypeScript + Tailwind CSS
 - CMS: Sanity (헤드리스 CMS, `next-sanity` 연동)
+- Visual Editing: `@sanity/presentation` + `@sanity/visual-editing`
 - 이미지: Sanity Image CDN + next/image
 - 배포: Vercel
 - 패키지 매니저: npm
@@ -40,6 +41,8 @@
 
 ### 콘텐츠 (Sanity CMS)
 - 동적 콘텐츠 (공지, 주보, 설교, 앨범 등): Sanity에서 관리
+- 페이지 구성: 블록(모듈) 조립 방식 (Sanity array of objects)
+- Visual Editing: 각 컴포넌트에 `encodeDataAttribute` 적용하여 클릭-편집 연동
 - 설교 영상: YouTube 임베드 방식 (Sanity에 URL 저장)
 - 이미지: Sanity Image CDN 사용 (next-sanity의 urlFor 헬퍼)
 - 정적 이미지 (로고 등): public/images/ 하위 관리
