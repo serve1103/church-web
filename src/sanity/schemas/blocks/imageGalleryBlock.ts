@@ -7,13 +7,15 @@ export const imageGalleryBlock = defineType({
   fields: [
     defineField({
       name: 'heading',
-      title: '제목',
+      title: '섹션 제목',
       type: 'string',
+      description: '갤러리 위에 표시되는 제목입니다. (선택사항)',
     }),
     defineField({
       name: 'images',
-      title: '이미지',
+      title: '이미지 목록',
       type: 'array',
+      description: '갤러리에 표시할 이미지를 업로드하세요. 최소 1장 이상 필요합니다.',
       of: [
         {
           type: 'image',
@@ -22,7 +24,8 @@ export const imageGalleryBlock = defineType({
             {
               name: 'alt',
               type: 'string',
-              title: '대체 텍스트',
+              title: '사진 설명',
+              description: '시각장애인을 위한 사진 설명입니다. (선택사항)',
             },
           ],
         },

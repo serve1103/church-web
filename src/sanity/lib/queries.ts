@@ -50,7 +50,7 @@ export const sermonBySlugQuery = groq`
 `
 
 export const latestSermonsQuery = groq`
-  *[_type == "sermon"] | order(date desc) [0...$count]{
+  *[_type == "sermon"] | order(date desc) [0...12]{
     _id, title, slug, date, category, preacher, bibleText, youtubeUrl, thumbnail
   }
 `
@@ -76,7 +76,7 @@ export const noticeBySlugQuery = groq`
 `
 
 export const latestNoticesQuery = groq`
-  *[_type == "notice"] | order(isPinned desc, publishedAt desc) [0...$count]{
+  *[_type == "notice"] | order(isPinned desc, publishedAt desc) [0...20]{
     _id, title, slug, publishedAt, isPinned
   }
 `

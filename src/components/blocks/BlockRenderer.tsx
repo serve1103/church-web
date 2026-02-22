@@ -1,18 +1,31 @@
-interface Block {
-  _type: string;
-  _key: string;
-}
+import type { PageBlock } from "@/types/sanity";
+import HeroBlock from "./HeroBlock";
+import WorshipInfoBlock from "./WorshipInfoBlock";
+import LatestSermonBlock from "./LatestSermonBlock";
+import NoticeListBlock from "./NoticeListBlock";
+import DirectionsBlock from "./DirectionsBlock";
+import YoutubeBlock from "./YoutubeBlock";
+import TextBlock from "./TextBlock";
+import ImageGalleryBlock from "./ImageGalleryBlock";
+import StaffBlock from "./StaffBlock";
+import TimelineBlock from "./TimelineBlock";
 
 interface BlockRendererProps {
-  blocks: Block[];
+  blocks: PageBlock[];
 }
 
-const blockComponents: Record<
-  string,
-  React.ComponentType<{ block: Block }>
-> = {
-  // 새 블록 컴포넌트를 여기에 등록하세요.
-  // 예: heroBlock: HeroBlock,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const blockComponents: Record<string, React.ComponentType<{ block: any }>> = {
+  heroBlock: HeroBlock,
+  worshipInfoBlock: WorshipInfoBlock,
+  latestSermonBlock: LatestSermonBlock,
+  noticeListBlock: NoticeListBlock,
+  directionsBlock: DirectionsBlock,
+  youtubeBlock: YoutubeBlock,
+  textBlock: TextBlock,
+  imageGalleryBlock: ImageGalleryBlock,
+  staffBlock: StaffBlock,
+  timelineBlock: TimelineBlock,
 };
 
 const BlockRenderer = ({ blocks }: BlockRendererProps) => {
