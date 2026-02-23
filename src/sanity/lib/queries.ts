@@ -97,6 +97,10 @@ export const latestBulletinQuery = groq`
   *[_type == "bulletin"] | order(date desc) [0]
 `
 
+export const bulletinsCountQuery = groq`
+  count(*[_type == "bulletin"])
+`
+
 // ─── 사진앨범 ────────────────────────────────────────────────
 
 export const albumsQuery = groq`
@@ -111,6 +115,10 @@ export const albumBySlugQuery = groq`
   *[_type == "album" && slug.current == $slug][0]
 `
 
+export const albumsCountQuery = groq`
+  count(*[_type == "album"])
+`
+
 // ─── 기도편지 ────────────────────────────────────────────────
 
 export const prayerLettersQuery = groq`
@@ -121,6 +129,10 @@ export const prayerLettersQuery = groq`
 
 export const prayerLetterBySlugQuery = groq`
   *[_type == "prayerLetter" && slug.current == $slug][0]
+`
+
+export const prayerLettersCountQuery = groq`
+  count(*[_type == "prayerLetter"])
 `
 
 // ─── 사역자 ──────────────────────────────────────────────────
