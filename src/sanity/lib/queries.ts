@@ -149,6 +149,14 @@ export const prayerLettersCountQuery = groq`
   count(*[_type == "prayerLetter"])
 `
 
+// ─── 사이트 설정 ──────────────────────────────────────────────
+
+export const siteSettingsQuery = groq`
+  *[_type == "siteSettings"][0]{
+    churchName, logo, address, phone
+  }
+`
+
 // ─── 사역자 ──────────────────────────────────────────────────
 
 export const staffListQuery = groq`

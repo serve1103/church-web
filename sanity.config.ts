@@ -68,6 +68,15 @@ const structure = (S: StructureBuilder) =>
 
       // ── 사이트 관리 ──
       S.listItem()
+        .id("siteSettings")
+        .title("사이트 설정")
+        .icon(() => "⚙️")
+        .child(
+          S.document()
+            .schemaType("siteSettings")
+            .documentId("siteSettings"),
+        ),
+      S.listItem()
         .id("staff")
         .title("사역자")
         .icon(() => "👤")

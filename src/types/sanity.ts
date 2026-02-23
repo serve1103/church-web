@@ -30,6 +30,15 @@ export interface SanitySlug {
   current: string
 }
 
+export interface SiteSettings {
+  _id: string
+  _type: 'siteSettings'
+  churchName: string
+  logo?: SanityImage
+  address?: string
+  phone?: string
+}
+
 // ─── 문서 타입 ───────────────────────────────────────────────
 
 export interface Staff {
