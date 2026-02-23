@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/live";
 import { latestSermonsQuery } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { extractYouTubeId } from "@/lib/youtube";
@@ -40,7 +40,8 @@ const LatestSermonBlock = async ({ block }: LatestSermonBlockProps) => {
 
   let sermons: Sermon[];
   try {
-    const data = await client.fetch<Sermon[]>(latestSermonsQuery);
+    const result = await sanityFetch({ query: latestSermonsQuery });
+    const data = result.data as Sermon[];
     sermons = (data ?? []).slice(0, count);
   } catch {
     return null;

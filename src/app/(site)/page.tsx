@@ -1,10 +1,12 @@
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/live";
 import { homePageQuery } from "@/sanity/lib/queries";
 import BlockRenderer from "@/components/blocks/BlockRenderer";
 import type { Page } from "@/types/sanity";
 
 export default async function Home() {
-  const page = await client.fetch<Page | null>(homePageQuery);
+  const { data: page } = (await sanityFetch({
+    query: homePageQuery,
+  })) as { data: Page | null; sourceMap: unknown; tags: string[] };
 
   if (!page?.blocks || page.blocks.length === 0) {
     return (

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/live";
 import { latestNoticesQuery } from "@/sanity/lib/queries";
 import { formatDate } from "@/lib/date";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -14,7 +14,8 @@ const NoticeListBlock = async ({ block }: NoticeListBlockProps) => {
 
   let notices: Notice[];
   try {
-    const data = await client.fetch<Notice[]>(latestNoticesQuery);
+    const result = await sanityFetch({ query: latestNoticesQuery });
+    const data = result.data as Notice[];
     notices = (data ?? []).slice(0, count);
   } catch {
     return null;
