@@ -60,6 +60,11 @@ const NoticesPage = async ({
                       중요
                     </span>
                   )}
+                  {notice.category === "event" && (
+                    <span className="shrink-0 rounded bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+                      행사
+                    </span>
+                  )}
                   <span
                     className={`min-w-0 flex-1 truncate text-text ${notice.isPinned ? "font-semibold" : ""}`}
                   >

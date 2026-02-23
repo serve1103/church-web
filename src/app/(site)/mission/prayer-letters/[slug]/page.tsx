@@ -1,7 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@/sanity/lib/live";
 import { prayerLetterBySlugQuery } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 import { formatDate } from "@/lib/date";
 import { PortableText } from "next-sanity";
 import { ChevronLeft } from "lucide-react";
@@ -69,6 +71,26 @@ export default async function PrayerLetterDetailPage({ params }: PageProps) {
       {letterData.body && (
         <div className="[&_a]:text-primary-light [&_a]:underline [&_em]:italic [&_li]:mb-1 [&_ol]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_p]:text-text-secondary [&_strong]:font-bold [&_strong]:text-text [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6">
           <PortableText value={letterData.body} />
+        </div>
+      )}
+
+      {/* Images */}
+      {letterData.images && letterData.images.length > 0 && (
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          {letterData.images.map((image, index) => (
+            <div
+              key={image.asset._ref}
+              className="relative aspect-[4/3] overflow-hidden rounded-xl"
+            >
+              <Image
+                src={urlFor(image).width(800).height(600).format("webp").url()}
+                alt={image.alt || `기도편지 사진 ${index + 1}`}
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 50vw"
+              />
+            </div>
+          ))}
         </div>
       )}
     </section>

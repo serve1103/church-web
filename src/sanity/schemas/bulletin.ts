@@ -23,7 +23,10 @@ export const bulletin = defineType({
       name: 'file',
       title: '주보 파일',
       type: 'file',
-      description: 'PDF 파일을 업로드해주세요. (10MB 이내)',
+      description: 'PDF 또는 이미지 파일을 업로드해주세요. (10MB 이내)',
+      options: {
+        accept: '.pdf,image/*',
+      },
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -31,7 +34,7 @@ export const bulletin = defineType({
       title: '표지 이미지',
       type: 'image',
       options: { hotspot: true },
-      description: '주보 표지를 미리보기로 보여줍니다. (선택사항)',
+      description: '주보 표지를 미리보기로 보여줍니다. PDF 파일인 경우 표지 이미지를 별도로 등록하면 목록에서 미리보기가 가능합니다.',
     }),
   ],
   orderings: [

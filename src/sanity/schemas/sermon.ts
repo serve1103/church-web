@@ -93,8 +93,25 @@ export const sermon = defineType({
   preview: {
     select: {
       title: 'title',
-      subtitle: 'date',
+      date: 'date',
+      category: 'category',
+      preacher: 'preacher',
       media: 'thumbnail',
+    },
+    prepare({ title, date, category, preacher, media }) {
+      const categoryLabels: Record<string, string> = {
+        sunday: '주일',
+        wednesday: '수요',
+        friday: '금요',
+        special: '특별',
+      }
+      const label = category ? categoryLabels[category] || category : ''
+      const parts = [label, preacher, date].filter(Boolean)
+      return {
+        title,
+        subtitle: parts.join(' · '),
+        media,
+      }
     },
   },
 })

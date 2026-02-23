@@ -4,7 +4,7 @@ import { PortableText } from "next-sanity";
 import { sanityFetch } from "@/sanity/lib/live";
 import { noticeBySlugQuery } from "@/sanity/lib/queries";
 import { formatDate } from "@/lib/date";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Download } from "lucide-react";
 import type { Metadata } from "next";
 import type { Notice } from "@/types/sanity";
 
@@ -59,10 +59,15 @@ const NoticeDetailPage = async ({
 
       {/* Header */}
       <header className="mb-8 border-b border-gray-200 pb-6">
-        <div className="mb-2 flex items-center gap-2">
+        <div className="mb-2 flex flex-wrap items-center gap-2">
           {notice.isPinned && (
             <span className="rounded bg-accent px-2 py-0.5 text-xs font-semibold text-white">
               중요
+            </span>
+          )}
+          {notice.category === "event" && (
+            <span className="rounded bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+              행사
             </span>
           )}
           <time className="text-sm text-text-secondary">
@@ -78,6 +83,44 @@ const NoticeDetailPage = async ({
       {notice.body && (
         <div className="[&_a]:text-primary-light [&_a]:underline [&_em]:italic [&_li]:mb-1 [&_ol]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_p]:text-text-secondary [&_strong]:font-bold [&_strong]:text-text [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6">
           <PortableText value={notice.body} />
+        </div>
+      )}
+
+      {/* Attachments */}
+      {notice.attachments && notice.attachments.length > 0 && (
+        <div className="mt-8 rounded-xl bg-surface p-6">
+          <h2 className="mb-3 text-sm font-semibold text-text">첨부파일</h2>
+          <ul className="space-y-2">
+            {notice.attachments.map((file) => {
+              const fileData = file as unknown as {
+                _key: string;
+                url?: string;
+                originalFilename?: string;
+                size?: number;
+                description?: string;
+              };
+              return (
+                <li key={fileData._key}>
+                  <a
+                    href={fileData.url ?? "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-primary transition-colors hover:text-primary-light"
+                  >
+                    <Download className="h-4 w-4" />
+                    {fileData.description ||
+                      fileData.originalFilename ||
+                      "파일 다운로드"}
+                    {fileData.size && (
+                      <span className="text-text-secondary">
+                        ({(fileData.size / 1024 / 1024).toFixed(1)}MB)
+                      </span>
+                    )}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       )}
 

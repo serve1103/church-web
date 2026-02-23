@@ -26,6 +26,25 @@ export const prayerLetter = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'images',
+      title: '첨부 사진',
+      type: 'array',
+      description: '기도편지와 함께 사진을 첨부할 수 있습니다.',
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: '사진 설명',
+            },
+          ],
+        },
+      ],
+    }),
+    defineField({
       name: 'publishedAt',
       title: '게시일',
       type: 'datetime',

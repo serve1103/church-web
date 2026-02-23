@@ -56,12 +56,24 @@ export interface Sermon {
   description?: string
 }
 
+export interface NoticeAttachment {
+  _key: string
+  _type: 'file'
+  asset: {
+    _ref: string
+    _type: 'reference'
+  }
+  description?: string
+}
+
 export interface Notice {
   _id: string
   _type: 'notice'
   title: string
   slug: SanitySlug
+  category?: 'notice' | 'event'
   body: PortableTextBlock[]
+  attachments?: NoticeAttachment[]
   publishedAt: string
   isPinned?: boolean
 }
@@ -91,6 +103,7 @@ export interface PrayerLetter {
   title: string
   slug: SanitySlug
   body: PortableTextBlock[]
+  images?: SanityImage[]
   publishedAt: string
 }
 

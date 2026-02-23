@@ -20,10 +20,42 @@ export const notice = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'category',
+      title: '분류',
+      type: 'string',
+      description: '공지사항의 분류를 선택하세요.',
+      options: {
+        list: [
+          { title: '공지', value: 'notice' },
+          { title: '행사', value: 'event' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'notice',
+    }),
+    defineField({
       name: 'body',
       title: '공지 내용',
       type: 'portableText',
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'attachments',
+      title: '첨부파일',
+      type: 'array',
+      description: '관련 파일을 첨부할 수 있습니다.',
+      of: [
+        {
+          type: 'file',
+          fields: [
+            {
+              name: 'description',
+              type: 'string',
+              title: '파일 설명',
+            },
+          ],
+        },
+      ],
     }),
     defineField({
       name: 'publishedAt',
@@ -52,6 +84,16 @@ export const notice = defineType({
     select: {
       title: 'title',
       subtitle: 'publishedAt',
+      category: 'category',
+      isPinned: 'isPinned',
+    },
+    prepare({ title, subtitle, category, isPinned }) {
+      const categoryLabel = category === 'event' ? '행사' : '공지'
+      const pin = isPinned ? '📌 ' : ''
+      return {
+        title: `${pin}${title}`,
+        subtitle: `[${categoryLabel}] ${subtitle ?? ''}`,
+      }
     },
   },
 })

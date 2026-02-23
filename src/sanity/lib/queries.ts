@@ -67,17 +67,25 @@ export const sermonsCountByCategoryQuery = groq`
 
 export const noticesQuery = groq`
   *[_type == "notice"] | order(isPinned desc, publishedAt desc) [$start...$end]{
-    _id, title, slug, publishedAt, isPinned
+    _id, title, slug, category, publishedAt, isPinned
   }
 `
 
 export const noticeBySlugQuery = groq`
-  *[_type == "notice" && slug.current == $slug][0]
+  *[_type == "notice" && slug.current == $slug][0]{
+    ...,
+    attachments[]{
+      ...,
+      "url": asset->url,
+      "originalFilename": asset->originalFilename,
+      "size": asset->size
+    }
+  }
 `
 
 export const latestNoticesQuery = groq`
   *[_type == "notice"] | order(isPinned desc, publishedAt desc) [0...20]{
-    _id, title, slug, publishedAt, isPinned
+    _id, title, slug, category, publishedAt, isPinned
   }
 `
 
@@ -128,7 +136,13 @@ export const prayerLettersQuery = groq`
 `
 
 export const prayerLetterBySlugQuery = groq`
-  *[_type == "prayerLetter" && slug.current == $slug][0]
+  *[_type == "prayerLetter" && slug.current == $slug][0]{
+    ...,
+    images[]{
+      ...,
+      "url": asset->url
+    }
+  }
 `
 
 export const prayerLettersCountQuery = groq`
