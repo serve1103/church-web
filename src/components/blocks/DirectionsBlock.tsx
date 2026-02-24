@@ -16,7 +16,11 @@ const DirectionsBlock = ({ block }: DirectionsBlockProps) => {
           <div className="grid lg:grid-cols-[1.2fr_1fr]">
             {/* Map */}
             <div className="min-h-[300px] lg:min-h-[400px]">
-              <MapEmbed address={block.address} />
+              <MapEmbed
+                address={block.address}
+                lat={block.mapCoordinates?.lat}
+                lng={block.mapCoordinates?.lng}
+              />
             </div>
 
             {/* Info */}
