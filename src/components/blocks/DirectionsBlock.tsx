@@ -20,6 +20,7 @@ const DirectionsBlock = ({ block }: DirectionsBlockProps) => {
                 address={block.address}
                 lat={block.mapCoordinates?.lat}
                 lng={block.mapCoordinates?.lng}
+                placeName="남문교회 독산동"
               />
             </div>
 
