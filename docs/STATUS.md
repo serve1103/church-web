@@ -1,6 +1,6 @@
 # 프로젝트 현황 및 남은 작업
 
-> 최종 업데이트: 2026-02-24
+> 최종 업데이트: 2026-02-25
 
 ## 완료된 작업
 
@@ -55,6 +55,14 @@
 - [x] robots.txt
 - [x] XE → Next.js URL 리다이렉트 매핑 (`next.config.ts`)
 
+### Phase 10: SEO 완성 및 코드 정리
+- [x] 동적 sitemap 완성 (Sanity에서 sermon/notice/album/prayer-letter slug 연동)
+- [x] OG 이미지 (ImageResponse로 동적 생성, metadataBase 설정)
+- [x] generateStaticParams (sermon/notice/album/prayer-letter 상세 SSG)
+- [x] Footer 하드코딩 색상 → CSS 변수 전환 (footer-bg, footer-border)
+- [x] 카카오맵 전환 (Google Maps → 카카오맵 임베드)
+- [x] 불필요 라우트 정리 (/worship, /directions → /about 리다이렉트)
+
 ---
 
 ## 남은 작업
@@ -63,13 +71,7 @@
 
 | # | 작업 | 설명 | 난이도 |
 |---|------|------|--------|
-| 1 | **동적 sitemap 완성** | sitemap.ts에 Sanity에서 sermon/notice/album 등 slug를 불러와 추가 | 쉬움 |
-| 2 | **OG 이미지** | 소셜 공유용 OpenGraph 기본 이미지 생성 | 쉬움 |
-| 3 | **generateStaticParams** | sermon/notice/album/prayer-letter 상세 페이지에 추가하여 SSG 지원 | 쉬움 |
-| 4 | **Footer 하드코딩 색상 수정** | `bg-[#111827]` → CSS 변수 사용으로 변경 | 쉬움 |
-| 5 | **카카오맵 전환** | PRD 요구사항에 따라 Google Maps → 카카오맵 임베드로 변경 | 중간 |
-| 6 | **불필요 라우트 정리** | `/worship`, `/directions` 등 독립 라우트 → 서브 페이지 블록으로 통합 | 쉬움 |
-| 7 | **반응형 최종 테스트** | 모바일/태블릿 전 블록 레이아웃 점검 | 중간 |
+| 1 | **반응형 최종 테스트** | 모바일/태블릿 전 블록 레이아웃 점검 | 중간 |
 
 ### 운영 작업 (배포 후)
 
