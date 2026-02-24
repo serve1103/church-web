@@ -1,13 +1,19 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@/sanity/lib/live";
-import { sermonBySlugQuery } from "@/sanity/lib/queries";
+import { sermonBySlugQuery, allSermonSlugsQuery } from "@/sanity/lib/queries";
+import { client } from "@/sanity/lib/client";
 import { extractYouTubeId } from "@/lib/youtube";
 import { formatDate } from "@/lib/date";
 import { SERMON_CATEGORY_LABELS } from "@/lib/constants";
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import type { Sermon } from "@/types/sanity";
+
+export async function generateStaticParams() {
+  const slugs = await client.fetch<{ slug: string }[]>(allSermonSlugsQuery);
+  return slugs.map((s) => ({ slug: s.slug }));
+}
 
 interface SermonDetailPageProps {
   params: Promise<{ slug: string }>;

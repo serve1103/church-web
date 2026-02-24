@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { NAV_ITEMS } from "@/lib/constants";
 import { sanityFetch } from "@/sanity/lib/live";
 import { siteSettingsQuery } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 import type { SiteSettings } from "@/types/sanity";
 
@@ -36,20 +36,7 @@ const Header = async () => {
           )}
         </Link>
 
-        <nav className="hidden lg:block">
-          <ul className="flex items-center gap-1">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="rounded-lg px-4 py-2 text-sm font-medium text-white/85 transition-colors hover:bg-white/10 hover:text-white"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <DesktopNav />
 
         <MobileNav />
       </div>

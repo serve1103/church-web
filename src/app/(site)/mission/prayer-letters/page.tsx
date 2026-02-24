@@ -11,8 +11,8 @@ import { ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "기도편지 | 남문교회",
-  description: "남문교회 선교 기도편지를 확인하세요.",
+  title: "기도편지",
+  description: "남문교회 선교 기도편지",
 };
 
 const PER_PAGE = 15;

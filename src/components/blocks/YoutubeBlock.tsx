@@ -10,9 +10,9 @@ const YoutubeBlock = ({ block }: YoutubeBlockProps) => {
   if (!videoId) return null;
 
   return (
-    <section className="px-4 py-[60px] sm:px-8">
+    <section className="px-4 py-16 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-4xl">
-        <div className="relative aspect-video overflow-hidden rounded-xl">
+        <div className="relative aspect-video overflow-hidden rounded-2xl shadow-lg">
           <iframe
             src={`https://www.youtube.com/embed/${videoId}`}
             title={block.caption ?? "YouTube 동영상"}
@@ -22,7 +22,7 @@ const YoutubeBlock = ({ block }: YoutubeBlockProps) => {
           />
         </div>
         {block.caption && (
-          <p className="mt-3 text-center text-sm text-text-secondary">
+          <p className="mt-4 text-center text-sm text-text-secondary">
             {block.caption}
           </p>
         )}

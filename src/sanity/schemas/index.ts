@@ -14,6 +14,7 @@ import { textBlock } from './blocks/textBlock'
 import { imageGalleryBlock } from './blocks/imageGalleryBlock'
 import { staffBlock } from './blocks/staffBlock'
 import { timelineBlock } from './blocks/timelineBlock'
+import { quickLinkBlock } from './blocks/quickLinkBlock'
 
 // Documents
 import { staff } from './staff'
@@ -40,6 +41,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   imageGalleryBlock,
   staffBlock,
   timelineBlock,
+  quickLinkBlock,
 
   // Documents
   staff,

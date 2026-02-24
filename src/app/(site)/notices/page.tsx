@@ -8,8 +8,8 @@ import type { Metadata } from "next";
 import type { Notice } from "@/types/sanity";
 
 export const metadata: Metadata = {
-  title: "공지사항 | 남문교회",
-  description: "남문교회 공지사항 목록입니다.",
+  title: "교회소식",
+  description: "남문교회 공지사항, 교회 소식",
 };
 
 const PER_PAGE = 15;

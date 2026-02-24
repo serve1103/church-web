@@ -9,6 +9,7 @@ import TextBlock from "./TextBlock";
 import ImageGalleryBlock from "./ImageGalleryBlock";
 import StaffBlock from "./StaffBlock";
 import TimelineBlock from "./TimelineBlock";
+import QuickLinkBlock from "./QuickLinkBlock";
 
 interface BlockRendererProps {
   blocks: PageBlock[];
@@ -26,6 +27,7 @@ const blockComponents: Record<string, React.ComponentType<{ block: any }>> = {
   imageGalleryBlock: ImageGalleryBlock,
   staffBlock: StaffBlock,
   timelineBlock: TimelineBlock,
+  quickLinkBlock: QuickLinkBlock,
 };
 
 const BlockRenderer = ({ blocks }: BlockRendererProps) => {

@@ -2,11 +2,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PortableText } from "next-sanity";
 import { sanityFetch } from "@/sanity/lib/live";
-import { noticeBySlugQuery } from "@/sanity/lib/queries";
+import { noticeBySlugQuery, allNoticeSlugsQuery } from "@/sanity/lib/queries";
+import { client } from "@/sanity/lib/client";
 import { formatDate } from "@/lib/date";
 import { ChevronLeft, Download } from "lucide-react";
 import type { Metadata } from "next";
 import type { Notice } from "@/types/sanity";
+
+export async function generateStaticParams() {
+  const slugs = await client.fetch<{ slug: string }[]>(allNoticeSlugsQuery);
+  return slugs.map((s) => ({ slug: s.slug }));
+}
 
 export const generateMetadata = async ({
   params,

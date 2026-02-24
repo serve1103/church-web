@@ -10,8 +10,8 @@ import type { Metadata } from "next";
 import type { Bulletin } from "@/types/sanity";
 
 export const metadata: Metadata = {
-  title: "주보 | 남문교회",
-  description: "남문교회 주보 목록입니다.",
+  title: "주보",
+  description: "남문교회 주보 아카이브",
 };
 
 const PER_PAGE = 12;

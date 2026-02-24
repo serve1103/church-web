@@ -6,8 +6,8 @@ import PageHeader from "@/components/ui/PageHeader";
 import type { Page } from "@/types/sanity";
 
 export const metadata: Metadata = {
-  title: "공동체 - 남문교회",
-  description: "남문교회 공동체",
+  title: "공동체",
+  description: "남문교회 세움 공동체 - 유치부, 초등부, 중고등부, 청년부, 장년부 소개",
 };
 
 export default async function CommunityPage() {

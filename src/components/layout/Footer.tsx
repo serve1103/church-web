@@ -11,7 +11,7 @@ const Footer = async () => {
   const churchName = settings?.churchName || "남문교회";
 
   return (
-    <footer className="bg-[#111827] text-gray-400">
+    <footer className="bg-footer-bg text-gray-400">
       <div className="mx-auto max-w-6xl px-4 py-12">
         <div className="grid gap-8 md:grid-cols-2">
           <div>
@@ -29,17 +29,31 @@ const Footer = async () => {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="transition-colors hover:text-white"
+                    className="font-medium transition-colors hover:text-white"
                   >
                     {item.label}
                   </Link>
+                  {item.children && (
+                    <ul className="mt-1 space-y-1 pl-3">
+                      {item.children.map((child) => (
+                        <li key={child.href}>
+                          <Link
+                            href={child.href}
+                            className="text-xs transition-colors hover:text-white"
+                          >
+                            {child.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        <div className="mt-8 border-t border-gray-700 pt-8 text-center text-sm">
+        <div className="mt-8 border-t border-footer-border pt-8 text-center text-sm">
           <p>&copy; {new Date().getFullYear()} {churchName}. All rights reserved.</p>
         </div>
       </div>

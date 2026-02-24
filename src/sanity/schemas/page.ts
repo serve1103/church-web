@@ -44,6 +44,7 @@ export const page = defineType({
         { type: 'imageGalleryBlock' },
         { type: 'staffBlock' },
         { type: 'timelineBlock' },
+        { type: 'quickLinkBlock' },
       ],
     }),
   ],

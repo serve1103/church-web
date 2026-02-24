@@ -2,13 +2,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@/sanity/lib/live";
-import { prayerLetterBySlugQuery } from "@/sanity/lib/queries";
+import { prayerLetterBySlugQuery, allPrayerLetterSlugsQuery } from "@/sanity/lib/queries";
+import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { formatDate } from "@/lib/date";
 import { PortableText } from "next-sanity";
 import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
 import type { PrayerLetter } from "@/types/sanity";
+
+export async function generateStaticParams() {
+  const slugs = await client.fetch<{ slug: string }[]>(allPrayerLetterSlugsQuery);
+  return slugs.map((s) => ({ slug: s.slug }));
+}
 
 interface PageProps {
   params: Promise<{ slug: string }>;

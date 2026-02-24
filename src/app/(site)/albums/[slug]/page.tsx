@@ -2,12 +2,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@/sanity/lib/live";
-import { albumBySlugQuery } from "@/sanity/lib/queries";
+import { albumBySlugQuery, allAlbumSlugsQuery } from "@/sanity/lib/queries";
+import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { formatDate } from "@/lib/date";
 import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
 import type { Album } from "@/types/sanity";
+
+export async function generateStaticParams() {
+  const slugs = await client.fetch<{ slug: string }[]>(allAlbumSlugsQuery);
+  return slugs.map((s) => ({ slug: s.slug }));
+}
 
 interface PageProps {
   params: Promise<{ slug: string }>;

@@ -17,8 +17,8 @@ import type { Metadata } from "next";
 import type { Sermon } from "@/types/sanity";
 
 export const metadata: Metadata = {
-  title: "설교 | 남문교회",
-  description: "남문교회 설교 영상을 확인하세요.",
+  title: "설교",
+  description: "남문교회 설교 - 주일오전, 수요, 새벽, 특별 예배설교 영상",
 };
 
 const PER_PAGE = 12;
