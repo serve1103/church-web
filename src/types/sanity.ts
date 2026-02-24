@@ -57,7 +57,7 @@ export interface Sermon {
   title: string
   slug: SanitySlug
   date: string
-  category: 'sunday' | 'wednesday' | 'friday' | 'special'
+  category: 'sunday' | 'seminar' | 'wednesday' | 'dawn' | 'special' | 'message'
   preacher?: string
   bibleText?: string
   youtubeUrl: string
@@ -213,6 +213,20 @@ export interface TimelineBlock {
   items?: TimelineItem[]
 }
 
+export interface QuickLink {
+  _key: string
+  title: string
+  description?: string
+  href: string
+  icon?: string
+}
+
+export interface QuickLinkBlock {
+  _type: 'quickLinkBlock'
+  _key: string
+  links?: QuickLink[]
+}
+
 // ─── 유니온 & 페이지 ────────────────────────────────────────
 
 export type PageBlock =
@@ -226,6 +240,7 @@ export type PageBlock =
   | ImageGalleryBlock
   | StaffBlock
   | TimelineBlock
+  | QuickLinkBlock
 
 export interface Page {
   _id: string

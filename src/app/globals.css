@@ -3,21 +3,31 @@
 :root {
   --color-primary: #1e3a5f;
   --color-primary-light: #4a90d9;
+  --color-primary-dark: #142942;
   --color-accent: #c8a951;
+  --color-accent-light: #dfc47a;
   --color-bg: #ffffff;
   --color-surface: #f8f9fa;
+  --color-border: #e5e7eb;
   --color-text: #1a1a1a;
   --color-text-secondary: #6b7280;
+  --color-footer-bg: #111827;
+  --color-footer-border: #374151;
 }
 
 @theme inline {
   --color-primary: var(--color-primary);
   --color-primary-light: var(--color-primary-light);
+  --color-primary-dark: var(--color-primary-dark);
   --color-accent: var(--color-accent);
+  --color-accent-light: var(--color-accent-light);
   --color-bg: var(--color-bg);
   --color-surface: var(--color-surface);
+  --color-border: var(--color-border);
   --color-text: var(--color-text);
   --color-text-secondary: var(--color-text-secondary);
+  --color-footer-bg: var(--color-footer-bg);
+  --color-footer-border: var(--color-footer-border);
   --font-sans: var(--font-pretendard), "Pretendard Variable", Pretendard,
     -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue",
     "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",

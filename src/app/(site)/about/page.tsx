@@ -6,8 +6,8 @@ import PageHeader from "@/components/ui/PageHeader";
 import type { Page } from "@/types/sanity";
 
 export const metadata: Metadata = {
-  title: "교회소개 - 남문교회",
-  description: "남문교회 교회소개",
+  title: "교회소개",
+  description: "남문교회 소개 - 인사말, 예배안내, 섬기는 사람들, 교회 연혁, 오시는 길",
 };
 
 export default async function AboutPage() {

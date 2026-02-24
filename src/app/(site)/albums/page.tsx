@@ -10,8 +10,8 @@ import type { Metadata } from "next";
 import type { SanityImage } from "@/types/sanity";
 
 export const metadata: Metadata = {
-  title: "교회앨범 | 남문교회",
-  description: "남문교회의 다양한 행사와 모임 사진을 확인하세요.",
+  title: "교회앨범",
+  description: "남문교회 사진 갤러리",
 };
 
 const PER_PAGE = 12;

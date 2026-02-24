@@ -33,10 +33,12 @@ export const sermon = defineType({
       description: '해당 설교가 어떤 예배에서 진행되었는지 선택하세요.',
       options: {
         list: [
-          { title: '주일설교', value: 'sunday' },
-          { title: '수요설교', value: 'wednesday' },
-          { title: '금요설교', value: 'friday' },
-          { title: '특별설교', value: 'special' },
+          { title: '주일오전설교', value: 'sunday' },
+          { title: '주일오후세미나', value: 'seminar' },
+          { title: '수요예배설교', value: 'wednesday' },
+          { title: '새벽예배설교', value: 'dawn' },
+          { title: '특별예배설교', value: 'special' },
+          { title: '3분 메시지', value: 'message' },
         ],
       },
       validation: (rule) => rule.required(),
@@ -100,10 +102,12 @@ export const sermon = defineType({
     },
     prepare({ title, date, category, preacher, media }) {
       const categoryLabels: Record<string, string> = {
-        sunday: '주일',
+        sunday: '주일오전',
+        seminar: '주일오후',
         wednesday: '수요',
-        friday: '금요',
+        dawn: '새벽',
         special: '특별',
+        message: '3분',
       }
       const label = category ? categoryLabels[category] || category : ''
       const parts = [label, preacher, date].filter(Boolean)

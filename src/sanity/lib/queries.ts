@@ -149,6 +149,24 @@ export const prayerLettersCountQuery = groq`
   count(*[_type == "prayerLetter"])
 `
 
+// ─── Slug 목록 (generateStaticParams 용) ─────────────────────
+
+export const allSermonSlugsQuery = groq`
+  *[_type == "sermon" && defined(slug.current)]{ "slug": slug.current }
+`
+
+export const allNoticeSlugsQuery = groq`
+  *[_type == "notice" && defined(slug.current)]{ "slug": slug.current }
+`
+
+export const allAlbumSlugsQuery = groq`
+  *[_type == "album" && defined(slug.current)]{ "slug": slug.current }
+`
+
+export const allPrayerLetterSlugsQuery = groq`
+  *[_type == "prayerLetter" && defined(slug.current)]{ "slug": slug.current }
+`
+
 // ─── 사이트 설정 ──────────────────────────────────────────────
 
 export const siteSettingsQuery = groq`

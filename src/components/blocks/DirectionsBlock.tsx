@@ -1,5 +1,6 @@
 import { MapPin, Phone, Bus } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
+import MapEmbed from "./MapEmbed";
 import type { DirectionsBlock as DirectionsBlockType } from "@/types/sanity";
 
 interface DirectionsBlockProps {
@@ -8,50 +9,60 @@ interface DirectionsBlockProps {
 
 const DirectionsBlock = ({ block }: DirectionsBlockProps) => {
   return (
-    <section className="px-4 py-[60px] sm:px-8">
+    <section className="px-4 py-16 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <SectionHeader title={block.heading ?? "오시는 길"} />
-        <div className="grid gap-8 lg:grid-cols-2">
-          <div className="flex aspect-[4/3] items-center justify-center rounded-xl bg-gray-100 text-text-secondary lg:aspect-auto lg:min-h-[320px]">
-            <p className="text-sm">지도 영역 (추후 카카오맵 연동)</p>
-          </div>
-
-          <div className="space-y-6">
-            <div className="flex gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                <MapPin className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-text">주소</h3>
-                <p className="mt-1 text-text-secondary">{block.address}</p>
-              </div>
+        <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+          <div className="grid lg:grid-cols-[1.2fr_1fr]">
+            {/* Map */}
+            <div className="min-h-[300px] lg:min-h-[400px]">
+              <MapEmbed address={block.address} />
             </div>
 
-            {block.phone && (
-              <div className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <Phone className="h-5 w-5" />
+            {/* Info */}
+            <div className="flex flex-col justify-center gap-6 p-8">
+              <div className="flex items-start gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <MapPin className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-text">전화</h3>
-                  <p className="mt-1 text-text-secondary">{block.phone}</p>
+                  <h3 className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
+                    주소
+                  </h3>
+                  <p className="mt-1 font-medium text-text">{block.address}</p>
                 </div>
               </div>
-            )}
 
-            {block.transitInfo && (
-              <div className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <Bus className="h-5 w-5" />
+              {block.phone && (
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Phone className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
+                      전화
+                    </h3>
+                    <p className="mt-1 font-medium text-text">{block.phone}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-text">대중교통</h3>
-                  <p className="mt-1 whitespace-pre-line text-text-secondary">
-                    {block.transitInfo}
-                  </p>
+              )}
+
+              {block.transitInfo && (
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Bus className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
+                      대중교통
+                    </h3>
+                    <p className="mt-1 whitespace-pre-line text-sm leading-relaxed text-text-secondary">
+                      {block.transitInfo}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
