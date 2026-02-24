@@ -60,8 +60,9 @@
 - [x] OG 이미지 (ImageResponse로 동적 생성, metadataBase 설정)
 - [x] generateStaticParams (sermon/notice/album/prayer-letter 상세 SSG)
 - [x] Footer 하드코딩 색상 → CSS 변수 전환 (footer-bg, footer-border)
-- [x] 카카오맵 전환 (Google Maps → 카카오맵 임베드)
+- [x] 카카오맵 전환 (Google Maps → 카카오맵 JavaScript SDK, Places 키워드 검색)
 - [x] 불필요 라우트 정리 (/worship, /directions → /about 리다이렉트)
+- [x] 카카오맵 위치 정확도 개선 (Geocoder → Places API)
 
 ---
 
@@ -73,22 +74,23 @@
 |---|------|------|--------|
 | 1 | **반응형 최종 테스트** | 모바일/태블릿 전 블록 레이아웃 점검 | 중간 |
 
-### 운영 작업 (배포 후)
+### 사용자 작업 (수동 처리 필요)
 
 | # | 작업 | 설명 |
 |---|------|------|
-| 8 | **Vercel 배포 + DNS** | nammoon.or.kr 도메인 연결 |
-| 9 | **콘텐츠 마이그레이션** | 기존 사이트의 설교 영상(YouTube URL), 공지, 주보 등 Sanity로 이관 |
-| 10 | **이미지 업로드** | 교역자 사진, 히어로 배경, 갤러리 등 실제 이미지를 Sanity Studio에서 업로드 |
-| 11 | **관리자 가이드** | 담임목사/사무장용 Sanity Studio 사용 가이드 작성 |
+| 2 | **Vercel 배포 + DNS** | nammoon.or.kr 도메인 연결, 환경변수(KAKAO_MAP_KEY 등) 등록 |
+| 3 | **카카오맵 플랫폼 등록** | Kakao Developers 콘솔에서 `https://nammoon.or.kr` 웹 플랫폼 추가 |
+| 4 | **콘텐츠 마이그레이션** | 기존 사이트의 설교 영상(YouTube URL), 공지, 주보 등 Sanity로 이관 |
+| 5 | **이미지 업로드** | 교역자 사진, 히어로 배경, 갤러리 등 실제 이미지를 Sanity Studio에서 업로드 |
 
 ### 선택 작업
 
 | # | 작업 | 설명 |
 |---|------|------|
-| 12 | **Studio 미리보기 토글** | PC↔모바일 뷰 전환 기능 |
-| 13 | **주보 뷰어** | PDF 인라인 뷰어 또는 이미지 변환 |
-| 14 | **검색 기능** | 설교/공지 통합 검색 |
+| 6 | **관리자 가이드** | 담임목사/사무장용 Sanity Studio 사용 가이드 작성 |
+| 7 | **Studio 미리보기 토글** | PC↔모바일 뷰 전환 기능 |
+| 8 | **주보 뷰어** | PDF 인라인 뷰어 또는 이미지 변환 |
+| 9 | **검색 기능** | 설교/공지 통합 검색 |
 
 ---
 
