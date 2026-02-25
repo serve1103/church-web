@@ -121,7 +121,9 @@ export interface PrayerLetter {
 export interface HeroBlock {
   _type: 'heroBlock'
   _key: string
-  backgroundImage: SanityImage
+  backgroundImages?: SanityImage[]
+  /** @deprecated 기존 단일 이미지 필드 (하위 호환용) */
+  backgroundImage?: SanityImage
   title: string
   subtitle?: string
   buttonText?: string

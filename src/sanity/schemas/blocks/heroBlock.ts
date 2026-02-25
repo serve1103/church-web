@@ -6,12 +6,18 @@ export const heroBlock = defineType({
   type: 'object',
   fields: [
     defineField({
-      name: 'backgroundImage',
+      name: 'backgroundImages',
       title: '배경 이미지',
-      type: 'image',
-      options: { hotspot: true },
-      description: '페이지 상단에 크게 표시되는 배경 사진입니다. 가로로 넓은 사진이 좋습니다.',
-      validation: (rule) => rule.required(),
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+        },
+      ],
+      description:
+        '페이지 상단에 크게 표시되는 배경 사진입니다. 가로로 넓은 사진이 좋습니다. 2장 이상이면 자동으로 슬라이드됩니다.',
+      validation: (rule) => rule.required().min(1).max(5),
     }),
     defineField({
       name: 'title',
@@ -30,7 +36,8 @@ export const heroBlock = defineType({
       name: 'buttonText',
       title: '버튼 텍스트',
       type: 'string',
-      description: '버튼에 표시할 텍스트입니다. (예: "예배 안내 보기") 비워두면 버튼이 표시되지 않습니다.',
+      description:
+        '버튼에 표시할 텍스트입니다. (예: "예배 안내 보기") 비워두면 버튼이 표시되지 않습니다.',
     }),
     defineField({
       name: 'buttonLink',

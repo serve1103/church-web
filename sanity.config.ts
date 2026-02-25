@@ -4,6 +4,7 @@ import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import type { StructureBuilder } from "sanity/structure";
 import { presentationTool } from "sanity/presentation";
+import { media } from "sanity-plugin-media";
 import { schemaTypes } from "@/sanity/schemas";
 import { dataset, projectId } from "@/sanity/env";
 
@@ -100,17 +101,26 @@ export default defineConfig({
   dataset,
   basePath: "/studio",
   plugins: [
-    structureTool({
-      structure,
-    }),
     presentationTool({
+      name: "presentation",
+      title: "미리보기",
       previewUrl: {
         previewMode: {
           enable: "/api/draft-mode/enable",
         },
       },
     }),
+    structureTool({
+      name: "structure",
+      title: "콘텐츠",
+      structure,
+    }),
+    media(),
   ],
+  tools: (prev) =>
+    prev.map((tool) =>
+      tool.name === "media" ? { ...tool, title: "미디어" } : tool,
+    ),
   schema: {
     types: schemaTypes,
   },

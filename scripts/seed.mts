@@ -371,7 +371,7 @@ const homePageDoc = {
       subtitle: "NAMMOON CHURCH",
       buttonText: "교회 소개",
       buttonLink: "/about",
-      backgroundImage: undefined, // 이미지는 Studio에서 직접 업로드
+      backgroundImages: [], // 이미지는 Studio에서 직접 업로드
     },
     {
       _type: "quickLinkBlock",
@@ -465,11 +465,15 @@ const homePageDoc = {
   ],
 };
 
-// heroBlock의 backgroundImage가 undefined인 경우 필드 제거
+// heroBlock의 backgroundImages가 비어있으면 필드 제거
 const homeBlocks = homePageDoc.blocks.map((block) => {
   const cleaned = { ...block };
-  if ("backgroundImage" in cleaned && cleaned.backgroundImage === undefined) {
-    delete (cleaned as Record<string, unknown>).backgroundImage;
+  if (
+    "backgroundImages" in cleaned &&
+    Array.isArray(cleaned.backgroundImages) &&
+    cleaned.backgroundImages.length === 0
+  ) {
+    delete (cleaned as Record<string, unknown>).backgroundImages;
   }
   return cleaned;
 });
