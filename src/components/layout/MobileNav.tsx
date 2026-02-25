@@ -2,27 +2,32 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { NAV_ITEMS } from "@/lib/constants";
+import { isNavActive } from "@/lib/nav";
 import type { NavItem } from "@/lib/constants";
 
 const MobileNavItem = ({
   item,
   onClose,
+  pathname,
 }: {
   item: NavItem;
   onClose: () => void;
+  pathname: string;
 }) => {
   const [expanded, setExpanded] = useState(false);
+  const active = isNavActive(pathname, item.href);
+
+  const linkClass = `block rounded-lg px-4 py-3 text-base font-medium transition-colors hover:bg-white/10 hover:text-white ${
+    active ? "text-white bg-white/10" : "text-white/90"
+  }`;
 
   if (!item.children) {
     return (
       <li>
-        <Link
-          href={item.href}
-          onClick={onClose}
-          className="block rounded-lg px-4 py-3 text-base font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white"
-        >
+        <Link href={item.href} onClick={onClose} className={linkClass}>
           {item.label}
         </Link>
       </li>
@@ -35,7 +40,7 @@ const MobileNavItem = ({
         <Link
           href={item.href}
           onClick={onClose}
-          className="flex-1 rounded-lg px-4 py-3 text-base font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white"
+          className={`flex-1 ${linkClass}`}
         >
           {item.label}
         </Link>
@@ -70,6 +75,7 @@ const MobileNavItem = ({
 
 const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <div className="lg:hidden">
@@ -103,6 +109,7 @@ const MobileNav = () => {
                   key={item.href}
                   item={item}
                   onClose={() => setIsOpen(false)}
+                  pathname={pathname}
                 />
               ))}
             </ul>

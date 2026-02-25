@@ -3,7 +3,11 @@
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import type { StructureBuilder } from "sanity/structure";
-import { presentationTool } from "sanity/presentation";
+import {
+  defineLocations,
+  presentationTool,
+  type DocumentLocation,
+} from "sanity/presentation";
 import { media } from "sanity-plugin-media";
 import { schemaTypes } from "@/sanity/schemas";
 import { dataset, projectId } from "@/sanity/env";
@@ -107,6 +111,122 @@ export default defineConfig({
       previewUrl: {
         previewMode: {
           enable: "/api/draft-mode/enable",
+        },
+      },
+      resolve: {
+        mainDocuments: [
+          {
+            route: "/",
+            filter: `_type == "page" && slug.current == "home"`,
+          },
+          {
+            route: "/:slug",
+            filter: `_type == "page" && slug.current == $slug`,
+          },
+          {
+            route: "/sermons/:slug",
+            filter: `_type == "sermon" && slug.current == $slug`,
+          },
+          {
+            route: "/notices/:slug",
+            filter: `_type == "notice" && slug.current == $slug`,
+          },
+          {
+            route: "/albums/:slug",
+            filter: `_type == "album" && slug.current == $slug`,
+          },
+          {
+            route: "/mission/prayer-letters/:slug",
+            filter: `_type == "prayerLetter" && slug.current == $slug`,
+          },
+        ],
+        locations: {
+          page: defineLocations({
+            select: { title: "title", slug: "slug.current" },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title || "페이지",
+                  href: doc?.slug === "home" ? "/" : `/${doc?.slug}`,
+                },
+              ],
+            }),
+          }),
+          sermon: defineLocations({
+            select: { title: "title", slug: "slug.current" },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title || "설교",
+                  href: `/sermons/${doc?.slug}`,
+                },
+                { title: "설교 목록", href: "/sermons" },
+              ],
+            }),
+          }),
+          notice: defineLocations({
+            select: { title: "title", slug: "slug.current" },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title || "공지사항",
+                  href: `/notices/${doc?.slug}`,
+                },
+                { title: "공지사항 목록", href: "/notices" },
+              ],
+            }),
+          }),
+          album: defineLocations({
+            select: { title: "title", slug: "slug.current" },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title || "앨범",
+                  href: `/albums/${doc?.slug}`,
+                },
+                { title: "앨범 목록", href: "/albums" },
+              ],
+            }),
+          }),
+          bulletin: defineLocations({
+            select: { title: "title", date: "date" },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title || "주보",
+                  href: "/bulletins",
+                },
+              ],
+            }),
+          }),
+          prayerLetter: defineLocations({
+            select: { title: "title", slug: "slug.current" },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title || "기도편지",
+                  href: `/mission/prayer-letters/${doc?.slug}`,
+                },
+                { title: "기도편지 목록", href: "/mission/prayer-letters" },
+              ],
+            }),
+          }),
+          staff: defineLocations({
+            select: { name: "name" },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.name || "사역자",
+                  href: "/about",
+                },
+              ] as DocumentLocation[],
+            }),
+          }),
+          siteSettings: defineLocations({
+            message: "사이트 전체에 적용되는 설정입니다",
+            tone: "caution",
+            locations: [{ title: "홈페이지", href: "/" }],
+          }),
         },
       },
     }),

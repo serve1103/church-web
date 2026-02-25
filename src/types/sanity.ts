@@ -85,6 +85,7 @@ export interface Notice {
   attachments?: NoticeAttachment[]
   publishedAt: string
   isPinned?: boolean
+  excerpt?: string
 }
 
 export interface Bulletin {

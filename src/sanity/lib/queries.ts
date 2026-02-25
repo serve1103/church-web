@@ -67,7 +67,8 @@ export const sermonsCountByCategoryQuery = groq`
 
 export const noticesQuery = groq`
   *[_type == "notice"] | order(isPinned desc, publishedAt desc) [$start...$end]{
-    _id, title, slug, category, publishedAt, isPinned
+    _id, title, slug, category, publishedAt, isPinned,
+    "excerpt": pt::text(body)
   }
 `
 
@@ -102,7 +103,15 @@ export const bulletinsQuery = groq`
 `
 
 export const latestBulletinQuery = groq`
-  *[_type == "bulletin"] | order(date desc) [0]
+  *[_type == "bulletin"] | order(date desc) [0]{
+    _id, title, date, file, coverImage
+  }
+`
+
+export const latestSermonsForSidebarQuery = groq`
+  *[_type == "sermon"] | order(date desc) [0...3]{
+    _id, title, slug, date
+  }
 `
 
 export const bulletinsCountQuery = groq`

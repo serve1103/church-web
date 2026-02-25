@@ -5,6 +5,7 @@ import { albumsQuery, albumsCountQuery } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { formatDate } from "@/lib/date";
 import PageHeader from "@/components/ui/PageHeader";
+import NewsTabNav from "@/components/ui/NewsTabNav";
 import Pagination from "@/components/ui/Pagination";
 import type { Metadata } from "next";
 import type { SanityImage } from "@/types/sanity";
@@ -48,6 +49,7 @@ export default async function AlbumsPage({ searchParams }: PageProps) {
   return (
     <>
       <PageHeader title="교회앨범" />
+      <NewsTabNav />
 
       <section className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
         {albums.length === 0 ? (
@@ -55,24 +57,24 @@ export default async function AlbumsPage({ searchParams }: PageProps) {
             등록된 앨범이 없습니다.
           </p>
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
             {albums.map((album) => (
               <Link
                 key={album._id}
                 href={`/albums/${album.slug.current}`}
                 className="group overflow-hidden rounded-xl bg-white shadow-sm transition-shadow hover:shadow-md"
               >
-                <div className="relative aspect-[4/3] overflow-hidden">
+                <div className="relative aspect-square overflow-hidden">
                   {album.coverImage ? (
                     <Image
                       src={urlFor(album.coverImage)
                         .width(600)
-                        .height(450)
+                        .height(600)
                         .format("webp")
                         .url()}
                       alt={album.coverImage.alt || album.title}
                       fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   ) : (

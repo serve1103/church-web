@@ -22,8 +22,7 @@ const nextConfig: NextConfig = {
       { source: "/staff", destination: "/about", permanent: true },
       { source: "/map", destination: "/about", permanent: true },
       { source: "/directions", destination: "/about", permanent: true },
-      // 설교
-      { source: "/Sunday01", destination: "/sermons", permanent: true },
+      // 설교: /Sunday01 처리는 middleware.ts에서 담당 (쿼리 파라미터 매핑 필요)
       // 소식
       { source: "/notice", destination: "/notices", permanent: true },
       { source: "/jubo", destination: "/bulletins", permanent: true },

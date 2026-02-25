@@ -3,7 +3,9 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { bulletinsQuery, bulletinsCountQuery } from "@/sanity/lib/queries";
 import { formatDate } from "@/lib/date";
 import { urlFor } from "@/sanity/lib/image";
+import { getFileUrl } from "@/sanity/lib/file";
 import PageHeader from "@/components/ui/PageHeader";
+import NewsTabNav from "@/components/ui/NewsTabNav";
 import Pagination from "@/components/ui/Pagination";
 import { FileText, Download } from "lucide-react";
 import type { Metadata } from "next";
@@ -15,14 +17,6 @@ export const metadata: Metadata = {
 };
 
 const PER_PAGE = 12;
-
-const getFileUrl = (fileRef: string): string => {
-  // Sanity file asset ref format: file-<id>-<extension>
-  const [, id, ext] = fileRef.split("-");
-  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-  const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
-  return `https://cdn.sanity.io/files/${projectId}/${dataset}/${id}.${ext}`;
-};
 
 const BulletinsPage = async ({
   searchParams,
@@ -51,6 +45,7 @@ const BulletinsPage = async ({
   return (
     <>
       <PageHeader title="주보" />
+      <NewsTabNav />
 
       <section className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
         {bulletins.length === 0 ? (

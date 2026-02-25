@@ -15,7 +15,8 @@ const Footer = async () => {
       <div className="mx-auto max-w-6xl px-4 py-12">
         <div className="grid gap-8 md:grid-cols-2">
           <div>
-            <h3 className="mb-4 text-lg font-bold text-white">{churchName}</h3>
+            <h3 className="mb-1 text-lg font-bold text-white">{churchName}</h3>
+            <p className="mb-4 text-sm text-gray-400">대한예수교장로회</p>
             <ul className="space-y-2 text-sm">
               {settings?.address && <li>주소: {settings.address}</li>}
               {settings?.phone && <li>전화: {settings.phone}</li>}
