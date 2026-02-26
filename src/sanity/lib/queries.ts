@@ -189,7 +189,7 @@ export const allPrayerLetterSlugsQuery = groq`
 
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0]{
-    churchName, logo, address, phone
+    churchName, logo, address, phone, email, socialLinks
   }
 `
 

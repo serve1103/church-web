@@ -30,6 +30,49 @@ export const siteSettings = defineType({
       title: '전화번호',
       type: 'string',
     }),
+    defineField({
+      name: 'email',
+      title: '이메일',
+      type: 'string',
+    }),
+    defineField({
+      name: 'socialLinks',
+      title: 'SNS 링크',
+      description: '교회 SNS 계정 링크를 입력하면 홈페이지 하단에 아이콘 버튼이 표시됩니다.',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'youtube',
+          title: 'YouTube',
+          type: 'url',
+          description: 'YouTube 채널 URL (예: https://www.youtube.com/@남문교회)',
+        }),
+        defineField({
+          name: 'instagram',
+          title: 'Instagram',
+          type: 'url',
+          description: 'Instagram 프로필 URL',
+        }),
+        defineField({
+          name: 'facebook',
+          title: 'Facebook',
+          type: 'url',
+          description: 'Facebook 페이지 URL',
+        }),
+        defineField({
+          name: 'blog',
+          title: '블로그',
+          type: 'url',
+          description: '네이버 블로그 등 블로그 URL',
+        }),
+        defineField({
+          name: 'kakao',
+          title: '카카오톡 채널',
+          type: 'url',
+          description: '카카오톡 채널 URL (예: https://pf.kakao.com/...)',
+        }),
+      ],
+    }),
   ],
   preview: {
     prepare() {

@@ -30,6 +30,14 @@ export interface SanitySlug {
   current: string
 }
 
+export interface SocialLinks {
+  youtube?: string
+  instagram?: string
+  facebook?: string
+  blog?: string
+  kakao?: string
+}
+
 export interface SiteSettings {
   _id: string
   _type: 'siteSettings'
@@ -37,6 +45,8 @@ export interface SiteSettings {
   logo?: SanityImage
   address?: string
   phone?: string
+  email?: string
+  socialLinks?: SocialLinks
 }
 
 // ─── 문서 타입 ───────────────────────────────────────────────

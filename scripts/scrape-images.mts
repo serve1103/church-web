@@ -6,6 +6,7 @@
  *
  * 옵션:
  *   --pages=N    스크래핑할 페이지 수 (기본: 전체, 최대 19페이지)
+ *   --since=YYYY 해당 연도 이후 앨범만 스크래핑 (예: --since=2025)
  *   --dry-run    실제 업로드하지 않고 데이터만 확인
  *   --skip-upload-images  이미지 업로드 건너뛰고 앨범 문서만 생성 (이미지 없이)
  */
@@ -100,6 +101,10 @@ const args = process.argv.slice(2);
 const maxPages = (() => {
   const p = args.find((a) => a.startsWith("--pages="));
   return p ? parseInt(p.split("=")[1], 10) : Infinity;
+})();
+const sinceYear = (() => {
+  const s = args.find((a) => a.startsWith("--since="));
+  return s ? parseInt(s.split("=")[1], 10) : 0;
 })();
 const dryRun = args.includes("--dry-run");
 const skipImageUpload = args.includes("--skip-upload-images");
@@ -338,6 +343,18 @@ async function main() {
   }
 
   console.log(`\n  총 ${allListItems.length}건의 앨범 목록 수집 완료\n`);
+
+  // 연도 필터 적용
+  if (sinceYear > 0) {
+    const before = allListItems.length;
+    const filtered = allListItems.filter((item) => {
+      const yearMatch = item.date.match(/^(\d{4})/);
+      return yearMatch ? parseInt(yearMatch[1], 10) >= sinceYear : true;
+    });
+    allListItems.length = 0;
+    allListItems.push(...filtered);
+    console.log(`  --since=${sinceYear} 필터 적용: ${before}건 → ${allListItems.length}건\n`);
+  }
 
   // 2단계: 상세 페이지에서 이미지 URL 추출
   console.log("🔍 2단계: 상세 페이지에서 이미지 추출 중...\n");
