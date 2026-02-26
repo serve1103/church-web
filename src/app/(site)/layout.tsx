@@ -15,7 +15,7 @@ export default async function SiteLayout({
       <main>{children}</main>
       <Footer />
       <SanityLive />
-      {(await draftMode()).isEnabled && <VisualEditing />}
+      {(await draftMode()).isEnabled && <VisualEditing zIndex={40} />}
     </>
   );
 }

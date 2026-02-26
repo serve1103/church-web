@@ -15,9 +15,8 @@ export const prayerLetter = defineType({
       name: 'slug',
       title: '페이지 주소',
       type: 'slug',
-      description: '제목 입력 후 "Generate" 버튼을 눌러 자동 생성하세요.',
       options: { source: 'title', maxLength: 96 },
-      validation: (rule) => rule.required(),
+      hidden: true,
     }),
     defineField({
       name: 'body',

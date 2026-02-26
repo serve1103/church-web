@@ -1,6 +1,6 @@
 "use client";
 
-import { defineConfig } from "sanity";
+import { defineConfig, defineLocaleResourceBundle } from "sanity";
 import { structureTool } from "sanity/structure";
 import type { StructureBuilder } from "sanity/structure";
 import {
@@ -8,9 +8,41 @@ import {
   presentationTool,
   type DocumentLocation,
 } from "sanity/presentation";
+import { koKRLocale } from "@sanity/locale-ko-kr";
 import { media } from "sanity-plugin-media";
 import { schemaTypes } from "@/sanity/schemas";
 import { dataset, projectId } from "@/sanity/env";
+import { createAutoSlugPublishAction } from "@/sanity/lib/actions";
+
+const presentationLocaleKo = defineLocaleResourceBundle({
+  locale: "ko-KR",
+  namespace: "presentation",
+  resources: {
+    "document-list-pane.document-list.title": "이 페이지의 문서",
+    "locations-banner.locations-count_one": "1개 페이지에서 사용됨",
+    "locations-banner.locations-count_other": "{{count}}개 페이지에서 사용됨",
+    "locations-banner.locations-count_zero": "사용된 페이지 없음",
+    "locations-banner.resolving.text": "위치 확인 중...",
+    "preview-frame.overlay.toggle-button.text": "편집",
+    "preview-frame.overlay.toggle-button.tooltip_disable": "편집 오버레이 끄기",
+    "preview-frame.overlay.toggle-button.tooltip_enable": "편집 오버레이 켜기",
+    "preview-frame.refresh-button.aria-label": "미리보기 새로고침",
+    "preview-frame.refresh-button.tooltip": "미리보기 새로고침",
+    "preview-frame.status_connecting": "연결 중.",
+    "preview-frame.status_loading": "불러오는 중.",
+    "preview-frame.status_refreshing": "새로고침 중.",
+    "preview-frame.status_reloading": "새로고침 중.",
+    "preview-frame.viewport-button.aria-label": "화면 크기 전환",
+    "preview-frame.viewport-button.tooltip_full": "전체 화면으로 전환",
+    "preview-frame.viewport-button.tooltip_narrow": "좁은 화면으로 전환",
+    "share-url.menu-item.open.text": "미리보기 열기",
+    "preview-frame.share-button.aria-label": "미리보기 공유",
+    "error-card.continue-button.text": "계속 진행",
+    "error-card.retry-button.text": "다시 시도",
+    "error-card.title": "오류가 발생했습니다",
+    "main-document.label": "메인 문서",
+  },
+});
 
 const structure = (S: StructureBuilder) =>
   S.list()
@@ -71,31 +103,37 @@ const structure = (S: StructureBuilder) =>
 
       S.divider(),
 
-      // ── 사이트 관리 ──
+      // ── 관리 ──
       S.listItem()
-        .id("siteSettings")
-        .title("사이트 설정")
+        .id("manage")
+        .title("관리")
         .icon(() => "⚙️")
         .child(
-          S.document()
-            .schemaType("siteSettings")
-            .documentId("siteSettings"),
+          S.list()
+            .id("manageList")
+            .title("관리")
+            .items([
+              S.listItem()
+                .id("siteSettings")
+                .title("사이트 설정")
+                .icon(() => "⚙️")
+                .child(
+                  S.document()
+                    .schemaType("siteSettings")
+                    .documentId("siteSettings"),
+                ),
+              S.listItem()
+                .id("staff")
+                .title("사역자")
+                .icon(() => "👤")
+                .child(
+                  S.documentTypeList("staff")
+                    .id("staffList")
+                    .title("사역자")
+                    .defaultOrdering([{ field: "order", direction: "asc" }]),
+                ),
+            ]),
         ),
-      S.listItem()
-        .id("staff")
-        .title("사역자")
-        .icon(() => "👤")
-        .child(
-          S.documentTypeList("staff")
-            .id("staffList")
-            .title("사역자")
-            .defaultOrdering([{ field: "order", direction: "asc" }]),
-        ),
-      S.listItem()
-        .id("page")
-        .title("페이지 관리")
-        .icon(() => "📃")
-        .child(S.documentTypeList("page").id("pageList").title("페이지 관리")),
     ]);
 
 export default defineConfig({
@@ -236,12 +274,29 @@ export default defineConfig({
       structure,
     }),
     media(),
+    koKRLocale(),
   ],
   tools: (prev) =>
     prev.map((tool) =>
       tool.name === "media" ? { ...tool, title: "미디어" } : tool,
     ),
+  i18n: {
+    bundles: [presentationLocaleKo],
+  },
   schema: {
     types: schemaTypes,
+  },
+  document: {
+    actions: (prev, context) => {
+      const autoSlugTypes = ["sermon", "notice", "album", "prayerLetter"];
+      if (autoSlugTypes.includes(context.schemaType)) {
+        return prev.map((action) =>
+          action.action === "publish"
+            ? createAutoSlugPublishAction(action)
+            : action,
+        );
+      }
+      return prev;
+    },
   },
 });

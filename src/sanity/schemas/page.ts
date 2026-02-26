@@ -16,7 +16,7 @@ export const page = defineType({
       name: 'slug',
       title: '페이지 주소',
       type: 'slug',
-      description: '홈페이지 URL 경로입니다. 제목 입력 후 "Generate" 버튼을 눌러 자동 생성하세요. 홈페이지는 반드시 "home"으로 설정해야 합니다.',
+      description: '홈페이지 URL 경로입니다. 제목 입력 후 "생성하기" 버튼을 눌러 자동 생성하세요. 홈페이지는 반드시 "home"으로 설정해야 합니다.',
       options: { source: 'title', maxLength: 96 },
       validation: (rule) => rule.required(),
     }),
@@ -32,7 +32,7 @@ export const page = defineType({
       name: 'blocks',
       title: '페이지 블록',
       type: 'array',
-      description: '페이지를 구성하는 블록들입니다. 아래 "Add item" 버튼으로 원하는 블록을 추가하세요.',
+      description: '페이지를 구성하는 블록들입니다. 아래 버튼으로 원하는 블록을 추가하세요.',
       of: [
         { type: 'heroBlock' },
         { type: 'worshipInfoBlock' },

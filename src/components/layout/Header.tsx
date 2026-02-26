@@ -12,7 +12,7 @@ const Header = async () => {
   const settings = result.data as SiteSettings | null;
 
   return (
-    <header className="sticky top-0 z-40 h-[72px] bg-primary">
+    <header className="sticky top-0 z-50 h-[72px] bg-primary">
       <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-3">
           {settings?.logo ? (
