@@ -72,33 +72,44 @@
 - [x] 스키마 설명문 한국어 통일 (Generate → 생성하기, Add item 제거)
 - [x] Visual Editing 오버레이 z-index 조정 (헤더 침범 방지)
 
+### Phase 12: 관리자 가이드 및 주보 뷰어
+- [x] 관리자 가이드 작성 (`docs/admin-guide.md`) — 담임목사/사무장용 Sanity Studio 사용법
+- [x] Studio 미리보기 PC↔모바일 토글 확인 (Presentation tool 내장 기능 + 한국어 번역 완료)
+- [x] 주보 PDF 인라인 뷰어 (`/bulletins/[id]`) — 브라우저 내 PDF 미리보기 + 다운로드
+
+### Phase 13: 반응형 테스트 및 수정
+- [x] 18개 스크린샷 촬영 (6페이지 × 3뷰포트) + 테스트 보고서 (`docs/responsive-test-report.md`)
+- [x] 설교 카테고리 필터 탭 터치 영역 확대 (`py-2` → `py-2.5`)
+- [x] 공지사항 긴 제목 모바일 2줄 표시 (`truncate` → `line-clamp-2`)
+- [x] 공지사항 리스트 최소 터치 높이 보장 (`min-h-[44px]`)
+- [x] 예배안내 카드 모바일 2컬럼 기본 적용 (`grid-cols-2`)
+- [x] 타임라인 카드 모바일 너비 명시 (`w-[calc(100%-3.5rem)]`)
+- [x] Footer 하위 메뉴 터치 영역 확대 (`py-1` 추가)
+- [x] 공지사항 사이드바에서 불필요한 "최신 설교" 섹션 제거
+
+### Phase 14: 콘텐츠 마이그레이션 스크립트
+- [x] 설교 스크래핑 스크립트 (`scripts/scrape-sermons.mts`) — 기존 사이트에서 설교 데이터 + YouTube URL 추출
+- [x] 공지사항 스크래핑 스크립트 (`scripts/scrape-notices.mts`) — 공지 제목/본문/날짜 추출
+- [x] 교회앨범 스크래핑 스크립트 (`scripts/scrape-images.mts`) — 앨범 이미지 다운로드 + Sanity 업로드
+
 ---
 
 ## 남은 작업
-
-### 코드 작업 (바로 가능)
-
-| # | 작업 | 설명 | 난이도 |
-|---|------|------|--------|
-| 1 | **반응형 최종 테스트** | 모바일/태블릿 전 블록 레이아웃 점검 | 중간 |
 
 ### 사용자 작업 (수동 처리 필요)
 
 | # | 작업 | 설명 |
 |---|------|------|
-| 2 | **Vercel 배포 + DNS** | nammoon.or.kr 도메인 연결, 환경변수(KAKAO_MAP_KEY 등) 등록 |
-| 3 | **카카오맵 플랫폼 등록** | Kakao Developers 콘솔에서 `https://nammoon.or.kr` 웹 플랫폼 추가 |
-| 4 | **콘텐츠 마이그레이션** | 기존 사이트의 설교 영상(YouTube URL), 공지, 주보 등 Sanity로 이관 |
-| 5 | **이미지 업로드** | 교역자 사진, 히어로 배경, 갤러리 등 실제 이미지를 Sanity Studio에서 업로드 |
+| 1 | **Vercel 배포 + DNS** | nammoon.or.kr 도메인 연결, 환경변수(KAKAO_MAP_KEY 등) 등록 |
+| 2 | **카카오맵 플랫폼 등록** | Kakao Developers 콘솔에서 `https://nammoon.or.kr` 웹 플랫폼 추가 |
+| 3 | **콘텐츠 마이그레이션 실행** | `npx tsx scripts/scrape-sermons.mts` 등 스크래핑 스크립트 실행하여 데이터 이관 |
+| 4 | **이미지 업로드** | 교역자 사진, 히어로 배경 등 실제 이미지를 Sanity Studio에서 업로드 |
 
 ### 선택 작업
 
 | # | 작업 | 설명 |
 |---|------|------|
-| 6 | **관리자 가이드** | 담임목사/사무장용 Sanity Studio 사용 가이드 작성 |
-| 7 | **Studio 미리보기 토글** | PC↔모바일 뷰 전환 기능 |
-| 8 | **주보 뷰어** | PDF 인라인 뷰어 또는 이미지 변환 |
-| 9 | **검색 기능** | 설교/공지 통합 검색 |
+| 5 | **검색 기능** | 설교/공지 통합 검색 |
 
 ---
 
@@ -116,6 +127,14 @@ npm run type-check       # TypeScript
 # 데이터
 npx tsx scripts/seed.mts     # Sanity에 시드 데이터 투입
 npx tsx scripts/cleanup.mts  # 테스트 데이터 삭제
+
+# 콘텐츠 마이그레이션 (기존 사이트 → Sanity)
+npx tsx scripts/scrape-sermons.mts --dry-run  # 설교 스크래핑 (미리보기)
+npx tsx scripts/scrape-sermons.mts            # 설교 스크래핑 (실행)
+npx tsx scripts/scrape-notices.mts --dry-run  # 공지사항 스크래핑 (미리보기)
+npx tsx scripts/scrape-notices.mts            # 공지사항 스크래핑 (실행)
+npx tsx scripts/scrape-images.mts --dry-run   # 앨범 스크래핑 (미리보기)
+npx tsx scripts/scrape-images.mts             # 앨범 스크래핑 (실행)
 ```
 
 ## 주요 참고 파일
@@ -123,6 +142,7 @@ npx tsx scripts/cleanup.mts  # 테스트 데이터 삭제
 | 파일 | 역할 |
 |------|------|
 | `docs/PRD.md` | 전체 요구사항 문서 |
+| `docs/admin-guide.md` | 관리자(담임목사/사무장) Sanity Studio 사용 가이드 |
 | `CLAUDE.md` | Claude Code 작업 지침 |
 | `src/lib/constants.ts` | NAV_ITEMS, SERMON_CATEGORY_LABELS |
 | `src/types/sanity.ts` | 모든 Sanity 타입 정의 |

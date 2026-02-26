@@ -5,7 +5,6 @@ import {
   noticesQuery,
   noticesCountQuery,
   latestBulletinQuery,
-  latestSermonsForSidebarQuery,
 } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { getFileUrl } from "@/sanity/lib/file";
@@ -24,13 +23,6 @@ export const metadata: Metadata = {
 
 const PER_PAGE = 15;
 
-interface SidebarSermon {
-  _id: string;
-  title: string;
-  slug: { current: string };
-  date: string;
-}
-
 const NoticesPage = async ({
   searchParams,
 }: {
@@ -41,19 +33,16 @@ const NoticesPage = async ({
   const start = (currentPage - 1) * PER_PAGE;
   const end = start + PER_PAGE;
 
-  const [noticesResult, countResult, bulletinResult, sermonsResult] =
-    await Promise.all([
-      sanityFetch({ query: noticesQuery, params: { start, end } }),
-      sanityFetch({ query: noticesCountQuery }),
-      sanityFetch({ query: latestBulletinQuery }),
-      sanityFetch({ query: latestSermonsForSidebarQuery }),
-    ]);
+  const [noticesResult, countResult, bulletinResult] = await Promise.all([
+    sanityFetch({ query: noticesQuery, params: { start, end } }),
+    sanityFetch({ query: noticesCountQuery }),
+    sanityFetch({ query: latestBulletinQuery }),
+  ]);
 
   const notices = noticesResult.data as Notice[];
   const totalCount = countResult.data as number;
   const totalPages = Math.ceil(totalCount / PER_PAGE);
   const latestBulletin = bulletinResult.data as Bulletin | null;
-  const latestSermons = sermonsResult.data as SidebarSermon[];
 
   return (
     <>
@@ -76,7 +65,7 @@ const NoticesPage = async ({
                   <li key={notice._id}>
                     <Link
                       href={`/notices/${notice.slug.current}`}
-                      className="block px-2 py-4 transition-colors hover:bg-surface sm:px-4"
+                      className="block px-2 py-4 transition-colors hover:bg-surface sm:px-4 min-h-[44px]"
                     >
                       <div className="flex items-center gap-3">
                         {notice.isPinned && (
@@ -90,7 +79,7 @@ const NoticesPage = async ({
                           </span>
                         )}
                         <span
-                          className={`min-w-0 flex-1 truncate text-text ${notice.isPinned ? "font-semibold" : ""}`}
+                          className={`min-w-0 flex-1 line-clamp-2 text-text sm:line-clamp-1 ${notice.isPinned ? "font-semibold" : ""}`}
                         >
                           {notice.title}
                         </span>
@@ -162,31 +151,6 @@ const NoticesPage = async ({
                 </div>
               )}
 
-              {/* 최신 설교 */}
-              {latestSermons.length > 0 && (
-                <div>
-                  <h3 className="mb-3 text-sm font-bold text-text">
-                    최신 설교
-                  </h3>
-                  <ul className="space-y-3">
-                    {latestSermons.map((sermon) => (
-                      <li key={sermon._id}>
-                        <Link
-                          href={`/sermons/${sermon.slug.current}`}
-                          className="block rounded-lg p-2 transition-colors hover:bg-surface"
-                        >
-                          <p className="text-sm font-medium text-text">
-                            {sermon.title}
-                          </p>
-                          <p className="mt-0.5 text-xs text-text-secondary">
-                            {formatDate(sermon.date)}
-                          </p>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
           </aside>
         </div>

@@ -35,12 +35,12 @@ const Footer = async () => {
                     {item.label}
                   </Link>
                   {item.children && (
-                    <ul className="mt-1 space-y-1 pl-3">
+                    <ul className="mt-1 space-y-0.5 pl-3">
                       {item.children.map((child) => (
                         <li key={child.href}>
                           <Link
                             href={child.href}
-                            className="text-xs transition-colors hover:text-white"
+                            className="inline-block py-1 text-xs transition-colors hover:text-white"
                           >
                             {child.label}
                           </Link>

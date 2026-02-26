@@ -21,7 +21,7 @@ const WorshipInfoBlock = ({ block }: WorshipInfoBlockProps) => {
           title={block.heading ?? "예배안내"}
           subtitle="남문교회와 함께 예배드리세요"
         />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3">
           {block.services?.map((service) => {
             const Icon = service.icon ? ICON_MAP[service.icon] : null;
             return (

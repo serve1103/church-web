@@ -1,13 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 import { sanityFetch } from "@/sanity/lib/live";
 import { bulletinsQuery, bulletinsCountQuery } from "@/sanity/lib/queries";
 import { formatDate } from "@/lib/date";
 import { urlFor } from "@/sanity/lib/image";
-import { getFileUrl } from "@/sanity/lib/file";
 import PageHeader from "@/components/ui/PageHeader";
 import NewsTabNav from "@/components/ui/NewsTabNav";
 import Pagination from "@/components/ui/Pagination";
-import { FileText, Download } from "lucide-react";
+import { FileText, Eye } from "lucide-react";
 import type { Metadata } from "next";
 import type { Bulletin } from "@/types/sanity";
 
@@ -55,12 +55,10 @@ const BulletinsPage = async ({
         ) : (
           <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-3 sm:gap-6">
             {bulletins.map((bulletin) => (
-              <a
+              <Link
                 key={bulletin._id}
-                href={getFileUrl(bulletin.file.asset._ref)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group overflow-hidden rounded-lg border border-gray-200 transition-shadow hover:shadow-md"
+                href={`/bulletins/${bulletin._id}`}
+                className="group overflow-hidden rounded-lg border border-border transition-shadow hover:shadow-md"
               >
                 {/* Cover image or placeholder */}
                 <div className="relative aspect-[3/4] w-full bg-surface">
@@ -93,9 +91,9 @@ const BulletinsPage = async ({
                       {formatDate(bulletin.date)}
                     </time>
                   </div>
-                  <Download className="ml-2 h-4 w-4 shrink-0 text-text-secondary transition-colors group-hover:text-primary" />
+                  <Eye className="ml-2 h-4 w-4 shrink-0 text-text-secondary transition-colors group-hover:text-primary" />
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         )}

@@ -102,6 +102,15 @@ export const bulletinsQuery = groq`
   }
 `
 
+export const bulletinByIdQuery = groq`
+  *[_type == "bulletin" && _id == $id][0]{
+    _id, title, date, file,
+    "fileUrl": file.asset->url,
+    "fileOriginalFilename": file.asset->originalFilename,
+    coverImage
+  }
+`
+
 export const latestBulletinQuery = groq`
   *[_type == "bulletin"] | order(date desc) [0]{
     _id, title, date, file, coverImage

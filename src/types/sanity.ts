@@ -97,6 +97,11 @@ export interface Bulletin {
   coverImage?: SanityImage
 }
 
+export interface BulletinDetail extends Bulletin {
+  fileUrl: string
+  fileOriginalFilename?: string
+}
+
 export interface Album {
   _id: string
   _type: 'album'

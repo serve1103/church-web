@@ -102,7 +102,7 @@ export default async function SermonsPage({ searchParams }: SermonsPageProps) {
               <Link
                 key={tab.key}
                 href={href}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                className={`rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${
                   isActive
                     ? "bg-primary text-white"
                     : "bg-surface text-text-secondary hover:bg-primary/10 hover:text-primary"

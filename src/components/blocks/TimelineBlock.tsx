@@ -33,7 +33,7 @@ const TimelineBlock = ({ block }: TimelineBlockProps) => {
 
                 {/* content card */}
                 <div
-                  className={`ml-10 rounded-xl border border-border bg-white p-5 shadow-sm transition-shadow hover:shadow-md sm:ml-0 sm:w-[calc(50%-2rem)] ${
+                  className={`ml-10 w-[calc(100%-3.5rem)] rounded-xl border border-border bg-white p-5 shadow-sm transition-shadow hover:shadow-md sm:ml-0 sm:w-[calc(50%-2rem)] ${
                     idx % 2 === 0 ? "sm:mr-auto sm:text-right" : "sm:ml-auto"
                   }`}
                 >
