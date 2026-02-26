@@ -1,6 +1,6 @@
 # 프로젝트 현황 및 남은 작업
 
-> 최종 업데이트: 2026-02-25
+> 최종 업데이트: 2026-02-26
 
 ## 완료된 작업
 
@@ -63,6 +63,14 @@
 - [x] 카카오맵 전환 (Google Maps → 카카오맵 JavaScript SDK, Places 키워드 검색)
 - [x] 불필요 라우트 정리 (/worship, /directions → /about 리다이렉트)
 - [x] 카카오맵 위치 정확도 개선 (Geocoder → Places API)
+
+### Phase 11: Sanity Studio UX 개선
+- [x] `@sanity/locale-ko-kr` 한국어 로케일 적용 (시스템 UI 전반)
+- [x] Presentation tool 영문 문자열 커스텀 한국어 번역
+- [x] slug 필드 숨김 + 게시 시 title 기반 자동생성 (sermon, notice, album, prayerLetter)
+- [x] 사이드바 정리 — "페이지 관리" 제거, "관리" 그룹화 (사이트 설정/사역자)
+- [x] 스키마 설명문 한국어 통일 (Generate → 생성하기, Add item 제거)
+- [x] Visual Editing 오버레이 z-index 조정 (헤더 침범 방지)
 
 ---
 
