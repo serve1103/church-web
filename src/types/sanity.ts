@@ -47,7 +47,6 @@ export interface SiteSettings {
   phone?: string
   email?: string
   socialLinks?: SocialLinks
-  newFamilyDisplayMonths?: number
 }
 
 // ─── 문서 타입 ───────────────────────────────────────────────
@@ -147,6 +146,23 @@ export interface NewFamily {
   date: string
   registrationNumber?: string
   extraFields?: NewFamilyExtraField[]
+}
+
+// ─── 새가족 안내 설정 ─────────────────────────────────────────
+
+export interface NewFamilyRegistrationStep {
+  _key: string
+  stepNumber: number
+  title: string
+  description?: string
+}
+
+export interface NewFamilySettings {
+  displayMonths?: number
+  welcomeMessage?: PortableTextBlock[]
+  registrationSteps?: NewFamilyRegistrationStep[]
+  extraFieldLabels?: string[]
+  assignedStaff?: Staff[]
 }
 
 // ─── 블록 타입 ───────────────────────────────────────────────

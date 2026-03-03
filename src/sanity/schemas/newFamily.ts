@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import ExtraFieldsInput from '../components/ExtraFieldsInput'
 
 export const newFamily = defineType({
   name: 'newFamily',
@@ -33,7 +34,10 @@ export const newFamily = defineType({
       name: 'extraFields',
       title: '추가 정보',
       type: 'array',
-      description: '항목을 자유롭게 추가할 수 있습니다. (예: 출신교회, 등록반 등)',
+      description: '"새가족 > 새가족 설정"에서 정의한 항목을 자동으로 표시합니다.',
+      components: {
+        input: ExtraFieldsInput,
+      },
       of: [
         {
           type: 'object',

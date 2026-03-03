@@ -189,6 +189,18 @@ export const newFamilyRecentCountQuery = groq`
   count(*[_type == "newFamily" && date >= $since])
 `
 
+// ─── 새가족 안내 설정 ──────────────────────────────────────────
+
+export const newFamilySettingsQuery = groq`
+  *[_type == "newFamilySettings"][0]{
+    displayMonths,
+    welcomeMessage,
+    registrationSteps,
+    extraFieldLabels,
+    assignedStaff[]->{ _id, name, position, photo }
+  }
+`
+
 // ─── Slug 목록 (generateStaticParams 용) ─────────────────────
 
 export const allSermonSlugsQuery = groq`
@@ -211,7 +223,7 @@ export const allPrayerLetterSlugsQuery = groq`
 
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0]{
-    churchName, logo, address, phone, email, socialLinks, newFamilyDisplayMonths
+    churchName, logo, address, phone, email, socialLinks
   }
 `
 

@@ -26,6 +26,7 @@ import { prayerLetter } from './prayerLetter'
 import { newFamily } from './newFamily'
 import { page } from './page'
 import { siteSettings } from './siteSettings'
+import { newFamilySettings } from './newFamilySettings'
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // Objects
@@ -54,4 +55,5 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   newFamily,
   page,
   siteSettings,
+  newFamilySettings,
 ]

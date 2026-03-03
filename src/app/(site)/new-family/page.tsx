@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { sanityFetch } from "@/sanity/lib/live";
 import {
@@ -6,14 +5,15 @@ import {
   newFamilyRecentQuery,
   newFamilyCountQuery,
   newFamilyRecentCountQuery,
-  siteSettingsQuery,
+  newFamilySettingsQuery,
 } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
 import PageHeader from "@/components/ui/PageHeader";
 import NewsTabNav from "@/components/ui/NewsTabNav";
 import Pagination from "@/components/ui/Pagination";
+import NewFamilyIntro from "@/components/new-family/NewFamilyIntro";
+import NewFamilyGrid from "@/components/new-family/NewFamilyGrid";
 import type { Metadata } from "next";
-import type { NewFamily, SiteSettings } from "@/types/sanity";
+import type { NewFamily, NewFamilySettings } from "@/types/sanity";
 
 export const metadata: Metadata = {
   title: "새가족",
@@ -38,9 +38,9 @@ const NewFamilyPage = async ({
   const start = (currentPage - 1) * PER_PAGE;
   const end = start + PER_PAGE;
 
-  const settingsResult = await sanityFetch({ query: siteSettingsQuery });
-  const settings = settingsResult.data as SiteSettings | null;
-  const displayMonths = settings?.newFamilyDisplayMonths;
+  const nfSettingsResult = await sanityFetch({ query: newFamilySettingsQuery });
+  const nfSettings = nfSettingsResult.data as NewFamilySettings | null;
+  const displayMonths = nfSettings?.displayMonths;
 
   const showAll = all === "true" || !displayMonths;
   const since = displayMonths ? getSinceDate(displayMonths) : "";
@@ -75,6 +75,8 @@ const NewFamilyPage = async ({
       <PageHeader title="새가족" />
       <NewsTabNav />
 
+      <NewFamilyIntro settings={nfSettings} />
+
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
         {/* 필터 안내 및 전체 보기 토글 */}
         {displayMonths && (
@@ -104,58 +106,10 @@ const NewFamilyPage = async ({
           </div>
         )}
 
-        {members.length === 0 ? (
-          <div className="flex min-h-[30vh] items-center justify-center">
-            <p className="text-text-secondary">
-              등록된 새가족이 없습니다.
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4">
-            {members.map((member) => (
-              <div
-                key={member._id}
-                className="overflow-hidden rounded-lg border border-border bg-white"
-              >
-                <div className="relative aspect-[3/4] bg-surface">
-                  {member.photo ? (
-                    <Image
-                      src={urlFor(member.photo)
-                        .width(300)
-                        .height(400)
-                        .fit("crop")
-                        .url()}
-                      alt={member.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    />
-                  ) : (
-                    <div className="flex h-full items-center justify-center text-text-secondary">
-                      <svg
-                        className="h-16 w-16 opacity-30"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                      </svg>
-                    </div>
-                  )}
-                </div>
-                <div className="px-3 py-2.5 text-center">
-                  <p className="text-sm font-medium text-text">
-                    {member.registrationNumber && (
-                      <span className="text-text-secondary">
-                        {member.registrationNumber}{" "}
-                      </span>
-                    )}
-                    {member.name}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        <NewFamilyGrid
+          members={members}
+          extraFieldLabels={nfSettings?.extraFieldLabels}
+        />
 
         <Pagination
           currentPage={currentPage}

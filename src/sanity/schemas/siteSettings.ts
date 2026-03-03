@@ -73,13 +73,6 @@ export const siteSettings = defineType({
         }),
       ],
     }),
-    defineField({
-      name: 'newFamilyDisplayMonths',
-      title: '새가족 표시 기간 (개월)',
-      type: 'number',
-      description: '등록일 기준으로 몇 개월간 새가족을 표시할지 설정합니다. 예: 3 → 최근 3개월. 비워두면 전체 표시.',
-      validation: (Rule) => Rule.min(1).max(24),
-    }),
   ],
   preview: {
     prepare() {

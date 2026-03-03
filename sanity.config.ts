@@ -105,10 +105,30 @@ const structure = (S: StructureBuilder) =>
         .title("새가족")
         .icon(() => "🤝")
         .child(
-          S.documentTypeList("newFamily")
-            .id("newFamilyList")
+          S.list()
+            .id("newFamilyGroup")
             .title("새가족")
-            .defaultOrdering([{ field: "date", direction: "desc" }]),
+            .items([
+              S.listItem()
+                .id("newFamilyList")
+                .title("새가족 목록")
+                .icon(() => "🤝")
+                .child(
+                  S.documentTypeList("newFamily")
+                    .id("newFamilyDocList")
+                    .title("새가족 목록")
+                    .defaultOrdering([{ field: "date", direction: "desc" }]),
+                ),
+              S.listItem()
+                .id("newFamilySettings")
+                .title("새가족 설정")
+                .icon(() => "📋")
+                .child(
+                  S.document()
+                    .schemaType("newFamilySettings")
+                    .documentId("newFamilySettings"),
+                ),
+            ]),
         ),
 
       S.divider(),
@@ -280,6 +300,11 @@ export default defineConfig({
                 },
               ] as DocumentLocation[],
             }),
+          }),
+          newFamilySettings: defineLocations({
+            message: "새가족 페이지 설정입니다",
+            tone: "caution",
+            locations: [{ title: "새가족", href: "/new-family" }],
           }),
           siteSettings: defineLocations({
             message: "사이트 전체에 적용되는 설정입니다",
