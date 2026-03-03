@@ -100,7 +100,7 @@
 
 | # | 작업 | 설명 |
 |---|------|------|
-| 1 | **Vercel 배포 + DNS** | nammoon.or.kr 도메인 연결, 환경변수(KAKAO_MAP_KEY 등) 등록 |
+| ~~1~~ | ~~**Vercel 배포 + DNS**~~ | ~~nammoon.or.kr 도메인 연결, 환경변수(KAKAO_MAP_KEY 등) 등록~~ **완료** |
 | 2 | **카카오맵 플랫폼 등록** | Kakao Developers 콘솔에서 `https://nammoon.or.kr` 웹 플랫폼 추가 |
 | 3 | **콘텐츠 마이그레이션 실행** | `npx tsx scripts/scrape-sermons.mts` 등 스크래핑 스크립트 실행하여 데이터 이관 |
 | 4 | **이미지 업로드** | 교역자 사진, 히어로 배경 등 실제 이미지를 Sanity Studio에서 업로드 |
