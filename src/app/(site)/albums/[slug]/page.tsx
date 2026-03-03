@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@/sanity/lib/live";
 import { albumBySlugQuery, allAlbumSlugsQuery } from "@/sanity/lib/queries";
@@ -7,6 +6,7 @@ import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { formatDate } from "@/lib/date";
 import { ChevronLeft } from "lucide-react";
+import ImageGalleryViewer from "@/components/ui/ImageGalleryViewer";
 import type { Metadata } from "next";
 import type { Album } from "@/types/sanity";
 
@@ -22,7 +22,8 @@ interface PageProps {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = decodeURIComponent(rawSlug);
   const { data: album } = await sanityFetch({
     query: albumBySlugQuery,
     params: { slug },
@@ -41,7 +42,8 @@ export async function generateMetadata({
 }
 
 export default async function AlbumDetailPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = decodeURIComponent(rawSlug);
   const { data: album } = await sanityFetch({
     query: albumBySlugQuery,
     params: { slug },
@@ -85,26 +87,13 @@ export default async function AlbumDetailPage({ params }: PageProps) {
 
       {/* Image gallery */}
       {albumData.images && albumData.images.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {albumData.images.map((image, index) => (
-            <div
-              key={index}
-              className="relative aspect-[4/3] overflow-hidden rounded-xl"
-            >
-              <Image
-                src={urlFor(image)
-                  .width(600)
-                  .height(450)
-                  .format("webp")
-                  .url()}
-                alt={image.alt || `${albumData.title} - ${index + 1}`}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover"
-              />
-            </div>
-          ))}
-        </div>
+        <ImageGalleryViewer
+          images={albumData.images.map((image, index) => ({
+            thumbSrc: urlFor(image).width(600).height(450).format("webp").url(),
+            fullSrc: urlFor(image).width(1400).format("webp").url(),
+            alt: image.alt || `${albumData.title} - ${index + 1}`,
+          }))}
+        />
       ) : (
         <p className="py-20 text-center text-text-secondary">
           등록된 사진이 없습니다.

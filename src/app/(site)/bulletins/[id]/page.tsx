@@ -2,9 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@/sanity/lib/live";
 import { bulletinByIdQuery } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 import { formatDate } from "@/lib/date";
-import { ArrowLeft, Calendar } from "lucide-react";
-import PdfViewer from "@/components/ui/PdfViewer";
+import { ArrowLeft, Calendar, Download } from "lucide-react";
+import ImageGalleryViewer from "@/components/ui/ImageGalleryViewer";
 import type { Metadata } from "next";
 import type { BulletinDetail } from "@/types/sanity";
 
@@ -42,9 +43,11 @@ export default async function BulletinDetailPage({
   });
   const bulletin = data as BulletinDetail | null;
 
-  if (!bulletin || !bulletin.fileUrl) {
+  if (!bulletin) {
     notFound();
   }
+
+  const hasCoverImage = !!bulletin.coverImage;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-8">
@@ -58,18 +61,50 @@ export default async function BulletinDetailPage({
       </Link>
 
       {/* Title & date */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-text sm:text-3xl">
-          {bulletin.title}
-        </h1>
-        <div className="mt-2 flex items-center gap-1.5 text-sm text-text-secondary">
-          <Calendar className="h-4 w-4" />
-          <time>{formatDate(bulletin.date)}</time>
+      <div className="mb-6 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-text sm:text-3xl">
+            {bulletin.title}
+          </h1>
+          <div className="mt-2 flex items-center gap-1.5 text-sm text-text-secondary">
+            <Calendar className="h-4 w-4" />
+            <time>{formatDate(bulletin.date)}</time>
+          </div>
         </div>
+        {hasCoverImage && (
+          <a
+            href={`${urlFor(bulletin.coverImage!).width(1600).format("jpg").url()}&dl=${encodeURIComponent(bulletin.title)}.jpg`}
+            download
+            className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-dark"
+          >
+            <Download className="h-4 w-4" />
+            다운로드
+          </a>
+        )}
       </div>
 
-      {/* PDF viewer */}
-      <PdfViewer fileUrl={bulletin.fileUrl} title={bulletin.title} />
+      {/* Bulletin image */}
+      {hasCoverImage ? (
+        <ImageGalleryViewer
+          images={[
+            {
+              thumbSrc: urlFor(bulletin.coverImage!)
+                .width(900)
+                .format("webp")
+                .url(),
+              fullSrc: urlFor(bulletin.coverImage!)
+                .width(1600)
+                .format("webp")
+                .url(),
+              alt: bulletin.title,
+            },
+          ]}
+        />
+      ) : (
+        <p className="py-20 text-center text-text-secondary">
+          주보 이미지가 등록되지 않았습니다.
+        </p>
+      )}
 
       {/* Back to list */}
       <div className="mt-12 border-t border-border pt-6 text-center">
