@@ -100,6 +100,16 @@ const structure = (S: StructureBuilder) =>
             .title("기도편지")
             .defaultOrdering([{ field: "publishedAt", direction: "desc" }]),
         ),
+      S.listItem()
+        .id("newFamily")
+        .title("새가족")
+        .icon(() => "🤝")
+        .child(
+          S.documentTypeList("newFamily")
+            .id("newFamilyList")
+            .title("새가족")
+            .defaultOrdering([{ field: "date", direction: "desc" }]),
+        ),
 
       S.divider(),
 
@@ -247,6 +257,17 @@ export default defineConfig({
                 },
                 { title: "기도편지 목록", href: "/mission/prayer-letters" },
               ],
+            }),
+          }),
+          newFamily: defineLocations({
+            select: { name: "name" },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.name || "새가족",
+                  href: "/new-family",
+                },
+              ] as DocumentLocation[],
             }),
           }),
           staff: defineLocations({

@@ -7,6 +7,7 @@ const TABS = [
   { label: "공지사항", href: "/notices" },
   { label: "주보", href: "/bulletins" },
   { label: "교회앨범", href: "/albums" },
+  { label: "새가족", href: "/new-family" },
 ];
 
 const NewsTabNav = () => {

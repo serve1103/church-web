@@ -47,6 +47,7 @@ export interface SiteSettings {
   phone?: string
   email?: string
   socialLinks?: SocialLinks
+  newFamilyDisplayMonths?: number
 }
 
 // ─── 문서 타입 ───────────────────────────────────────────────
@@ -130,6 +131,22 @@ export interface PrayerLetter {
   body: PortableTextBlock[]
   images?: SanityImage[]
   publishedAt: string
+}
+
+export interface NewFamilyExtraField {
+  _key: string
+  label: string
+  value: string
+}
+
+export interface NewFamily {
+  _id: string
+  _type: 'newFamily'
+  name: string
+  photo?: SanityImage
+  date: string
+  registrationNumber?: string
+  extraFields?: NewFamilyExtraField[]
 }
 
 // ─── 블록 타입 ───────────────────────────────────────────────

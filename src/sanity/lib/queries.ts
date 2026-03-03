@@ -167,6 +167,28 @@ export const prayerLettersCountQuery = groq`
   count(*[_type == "prayerLetter"])
 `
 
+// ─── 새가족 ──────────────────────────────────────────────────
+
+export const newFamilyQuery = groq`
+  *[_type == "newFamily"] | order(date desc) [$start...$end]{
+    _id, name, registrationNumber, photo, date, extraFields
+  }
+`
+
+export const newFamilyRecentQuery = groq`
+  *[_type == "newFamily" && date >= $since] | order(date desc) [$start...$end]{
+    _id, name, registrationNumber, photo, date, extraFields
+  }
+`
+
+export const newFamilyCountQuery = groq`
+  count(*[_type == "newFamily"])
+`
+
+export const newFamilyRecentCountQuery = groq`
+  count(*[_type == "newFamily" && date >= $since])
+`
+
 // ─── Slug 목록 (generateStaticParams 용) ─────────────────────
 
 export const allSermonSlugsQuery = groq`
@@ -189,7 +211,7 @@ export const allPrayerLetterSlugsQuery = groq`
 
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0]{
-    churchName, logo, address, phone, email, socialLinks
+    churchName, logo, address, phone, email, socialLinks, newFamilyDisplayMonths
   }
 `
 

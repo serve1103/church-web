@@ -29,6 +29,7 @@ export const NAV_ITEMS: NavItem[] = [
       { label: "교회소식", href: "/notices" },
       { label: "주보", href: "/bulletins" },
       { label: "교회앨범", href: "/albums" },
+      { label: "새가족", href: "/new-family" },
     ],
   },
   { label: "공동체", href: "/community" },

@@ -23,6 +23,7 @@ import { notice } from './notice'
 import { bulletin } from './bulletin'
 import { album } from './album'
 import { prayerLetter } from './prayerLetter'
+import { newFamily } from './newFamily'
 import { page } from './page'
 import { siteSettings } from './siteSettings'
 
@@ -50,6 +51,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   bulletin,
   album,
   prayerLetter,
+  newFamily,
   page,
   siteSettings,
 ]
