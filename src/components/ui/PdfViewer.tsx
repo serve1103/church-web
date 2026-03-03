@@ -11,8 +11,8 @@ interface PdfViewerProps {
 const PdfViewer = ({ fileUrl, title }: PdfViewerProps) => {
   const [hasError, setHasError] = useState(false);
 
-  // PDF URL with inline disposition for browser viewing
-  const viewUrl = `${fileUrl}?dl=`;
+  // File URL for inline browser viewing (no ?dl= to avoid attachment disposition)
+  const viewUrl = fileUrl;
 
   return (
     <div className="flex flex-col gap-4">
