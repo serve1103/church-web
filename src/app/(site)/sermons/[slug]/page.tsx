@@ -22,7 +22,8 @@ interface SermonDetailPageProps {
 export async function generateMetadata({
   params,
 }: SermonDetailPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = decodeURIComponent(rawSlug);
   const { data } = await sanityFetch({
     query: sermonBySlugQuery,
     params: { slug },
@@ -44,7 +45,8 @@ export async function generateMetadata({
 export default async function SermonDetailPage({
   params,
 }: SermonDetailPageProps) {
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = decodeURIComponent(rawSlug);
   const { data } = await sanityFetch({
     query: sermonBySlugQuery,
     params: { slug },

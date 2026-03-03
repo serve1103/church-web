@@ -19,7 +19,8 @@ export const generateMetadata = async ({
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> => {
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = decodeURIComponent(rawSlug);
   const result = await sanityFetch({
     query: noticeBySlugQuery,
     params: { slug },
@@ -41,7 +42,8 @@ const NoticeDetailPage = async ({
 }: {
   params: Promise<{ slug: string }>;
 }) => {
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = decodeURIComponent(rawSlug);
   const result = await sanityFetch({
     query: noticeBySlugQuery,
     params: { slug },

@@ -23,7 +23,8 @@ interface PageProps {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = decodeURIComponent(rawSlug);
   const { data: letter } = await sanityFetch({
     query: prayerLetterBySlugQuery,
     params: { slug },
@@ -41,7 +42,8 @@ export async function generateMetadata({
 }
 
 export default async function PrayerLetterDetailPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = decodeURIComponent(rawSlug);
   const { data: letter } = await sanityFetch({
     query: prayerLetterBySlugQuery,
     params: { slug },
