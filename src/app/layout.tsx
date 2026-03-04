@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { pretendard } from "@/lib/fonts";
 import "./globals.css";
 
@@ -30,6 +31,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${pretendard.variable} font-sans antialiased`}>
         {children}
+        <Analytics />
       </body>
     </html>
   );
