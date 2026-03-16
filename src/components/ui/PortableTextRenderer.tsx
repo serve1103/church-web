@@ -2,7 +2,7 @@ import { PortableText, type PortableTextComponents } from "next-sanity";
 import type { PortableTextBlock } from "next-sanity";
 import type { ReactNode } from "react";
 
-/* ── 색상/크기 매핑 (annotation value → Tailwind 클래스) ── */
+/* ── textStyle annotation의 값 → Tailwind 클래스 매핑 ── */
 const TEXT_COLOR_CLASS: Record<string, string> = {
   primary: "text-primary",
   blue: "text-primary-light",
@@ -24,33 +24,26 @@ const FONT_SIZE_CLASS: Record<string, string> = {
   xlarge: "text-2xl",
 };
 
-const Span = ({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className: string;
-}) => <span className={className}>{children}</span>;
-
 const components: PortableTextComponents = {
   marks: {
-    textColor: ({ children, value }) => (
-      <Span className={TEXT_COLOR_CLASS[value?.color] ?? ""}>
-        {children}
-      </Span>
-    ),
-    highlight: ({ children, value }) => (
-      <Span
-        className={`${HIGHLIGHT_CLASS[value?.color] ?? "bg-yellow-200"} rounded-sm px-0.5`}
-      >
-        {children}
-      </Span>
-    ),
-    fontSize: ({ children, value }) => (
-      <Span className={FONT_SIZE_CLASS[value?.size] ?? ""}>
-        {children}
-      </Span>
-    ),
+    textStyle: ({
+      children,
+      value,
+    }: {
+      children: ReactNode;
+      value?: { color?: string; bg?: string; size?: string };
+    }) => {
+      const classes: string[] = [];
+      if (value?.color && TEXT_COLOR_CLASS[value.color])
+        classes.push(TEXT_COLOR_CLASS[value.color]);
+      if (value?.bg && HIGHLIGHT_CLASS[value.bg])
+        classes.push(HIGHLIGHT_CLASS[value.bg], "rounded-sm", "px-0.5");
+      if (value?.size && FONT_SIZE_CLASS[value.size])
+        classes.push(FONT_SIZE_CLASS[value.size]);
+
+      if (classes.length === 0) return <>{children}</>;
+      return <span className={classes.join(" ")}>{children}</span>;
+    },
   },
 };
 

@@ -1,27 +1,23 @@
 import { defineArrayMember, defineType } from 'sanity'
 import type { ReactNode } from 'react'
 
-/* ── Sanity Studio 도구모음 아이콘 ── */
-const ColorIcon = () => (
-  <span style={{ fontWeight: 700, color: '#1e3a5f' }}>A</span>
-)
-const HighlightIcon = () => (
-  <span style={{ fontWeight: 700, background: '#fef08a', borderRadius: 2, padding: '0 3px' }}>H</span>
-)
-const FontSizeIcon = () => (
-  <span style={{ fontWeight: 700, fontSize: '1.1em' }}>T</span>
+/* ── Studio 도구모음 아이콘 ── */
+const StyleIcon = () => (
+  <span style={{ fontWeight: 700, fontSize: '1em' }}>Aa</span>
 )
 
-/* ── 색상 프리셋 ── */
+/* ── 프리셋 ── */
 const TEXT_COLORS = [
-  { title: '남색 (Primary)', value: 'primary' },
+  { title: '기본 (변경 없음)', value: '' },
+  { title: '남색', value: 'primary' },
   { title: '파랑', value: 'blue' },
-  { title: '금색 (Accent)', value: 'accent' },
+  { title: '금색', value: 'accent' },
   { title: '빨강', value: 'red' },
   { title: '회색', value: 'gray' },
 ]
 
 const HIGHLIGHT_COLORS = [
+  { title: '없음', value: '' },
   { title: '노랑', value: 'yellow' },
   { title: '연파랑', value: 'blue' },
   { title: '연초록', value: 'green' },
@@ -29,13 +25,14 @@ const HIGHLIGHT_COLORS = [
 ]
 
 const FONT_SIZES = [
-  { title: '작게 (14px)', value: 'small' },
-  { title: '크게 (20px)', value: 'large' },
-  { title: '아주 크게 (24px)', value: 'xlarge' },
+  { title: '기본', value: '' },
+  { title: '작게', value: 'small' },
+  { title: '크게', value: 'large' },
+  { title: '아주 크게', value: 'xlarge' },
 ]
 
-/* ── Studio 에디터 미리보기 컴포넌트 ── */
-const COLOR_MAP: Record<string, string> = {
+/* ── Studio 에디터 미리보기 ── */
+const COLOR_HEX: Record<string, string> = {
   primary: '#1e3a5f',
   blue: '#4a90d9',
   accent: '#c8a951',
@@ -43,32 +40,38 @@ const COLOR_MAP: Record<string, string> = {
   gray: '#6b7280',
 }
 
-const HIGHLIGHT_COLOR_MAP: Record<string, string> = {
+const HIGHLIGHT_HEX: Record<string, string> = {
   yellow: '#fef08a',
   blue: '#bfdbfe',
   green: '#bbf7d0',
   pink: '#fecaca',
 }
 
-const FONT_SIZE_STYLE: Record<string, string> = {
+const FONT_SIZE_PX: Record<string, string> = {
   small: '0.875em',
   large: '1.25em',
   xlarge: '1.5em',
 }
 
-const TextColorPreview = (props: { children: ReactNode; value?: { color?: string } }) => {
-  const hex = COLOR_MAP[props.value?.color ?? ''] ?? 'inherit'
-  return <span style={{ color: hex }}>{props.children}</span>
+interface StyleValue {
+  color?: string
+  bg?: string
+  size?: string
 }
 
-const HighlightPreview = (props: { children: ReactNode; value?: { color?: string } }) => {
-  const hex = HIGHLIGHT_COLOR_MAP[props.value?.color ?? ''] ?? '#fef08a'
-  return <span style={{ backgroundColor: hex, borderRadius: 2, padding: '0 2px' }}>{props.children}</span>
-}
+const TextStylePreview = (props: { children: ReactNode; value?: StyleValue }) => {
+  const style: Record<string, string> = {}
+  if (props.value?.color && COLOR_HEX[props.value.color])
+    style.color = COLOR_HEX[props.value.color]
+  if (props.value?.bg && HIGHLIGHT_HEX[props.value.bg]) {
+    style.backgroundColor = HIGHLIGHT_HEX[props.value.bg]
+    style.borderRadius = '2px'
+    style.padding = '0 2px'
+  }
+  if (props.value?.size && FONT_SIZE_PX[props.value.size])
+    style.fontSize = FONT_SIZE_PX[props.value.size]
 
-const FontSizePreview = (props: { children: ReactNode; value?: { size?: string } }) => {
-  const fs = FONT_SIZE_STYLE[props.value?.size ?? ''] ?? 'inherit'
-  return <span style={{ fontSize: fs }}>{props.children}</span>
+  return <span style={style}>{props.children}</span>
 }
 
 export const portableText = defineType({
@@ -107,68 +110,31 @@ export const portableText = defineType({
             ],
           },
           {
-            name: 'textColor',
+            name: 'textStyle',
             type: 'object',
-            title: '글자 색상',
-            icon: ColorIcon,
+            title: '텍스트 스타일',
+            icon: StyleIcon,
             components: {
-              annotation: TextColorPreview,
+              annotation: TextStylePreview,
             },
             fields: [
               {
                 name: 'color',
                 type: 'string',
-                title: '색상 선택',
-                options: {
-                  list: TEXT_COLORS,
-                  layout: 'radio',
-                },
-                initialValue: 'primary',
-                validation: (rule) => rule.required(),
+                title: '글자 색상',
+                options: { list: TEXT_COLORS },
               },
-            ],
-          },
-          {
-            name: 'highlight',
-            type: 'object',
-            title: '형광펜',
-            icon: HighlightIcon,
-            components: {
-              annotation: HighlightPreview,
-            },
-            fields: [
               {
-                name: 'color',
+                name: 'bg',
                 type: 'string',
-                title: '색상 선택',
-                options: {
-                  list: HIGHLIGHT_COLORS,
-                  layout: 'radio',
-                },
-                initialValue: 'yellow',
-                validation: (rule) => rule.required(),
+                title: '형광펜',
+                options: { list: HIGHLIGHT_COLORS },
               },
-            ],
-          },
-          {
-            name: 'fontSize',
-            type: 'object',
-            title: '글자 크기',
-            icon: FontSizeIcon,
-            components: {
-              annotation: FontSizePreview,
-            },
-            fields: [
               {
                 name: 'size',
                 type: 'string',
-                title: '크기 선택',
-                options: {
-                  list: FONT_SIZES,
-                  layout: 'radio',
-                },
-                initialValue: 'large',
-                validation: (rule) => rule.required(),
+                title: '글자 크기',
+                options: { list: FONT_SIZES },
               },
             ],
           },
