@@ -35,7 +35,7 @@ const LatestSermonBlock = async ({ block }: LatestSermonBlockProps) => {
   try {
     const result = await sanityFetch({ query: latestSermonsQuery });
     const data = result.data as Sermon[];
-    sermons = (data ?? []).slice(0, count);
+    sermons = (data ?? []).filter((s) => s.slug?.current).slice(0, count);
   } catch {
     return null;
   }

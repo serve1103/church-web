@@ -34,13 +34,13 @@ export const homePageQuery = groq`
 // ─── 설교 ────────────────────────────────────────────────────
 
 export const sermonsQuery = groq`
-  *[_type == "sermon"] | order(date desc) [$start...$end]{
+  *[_type == "sermon" && defined(slug.current)] | order(date desc) [$start...$end]{
     _id, title, slug, date, category, preacher, bibleText, youtubeUrl, thumbnail, description
   }
 `
 
 export const sermonsByCategoryQuery = groq`
-  *[_type == "sermon" && category == $category] | order(date desc) [$start...$end]{
+  *[_type == "sermon" && category == $category && defined(slug.current)] | order(date desc) [$start...$end]{
     _id, title, slug, date, category, preacher, bibleText, youtubeUrl, thumbnail, description
   }
 `
@@ -50,23 +50,23 @@ export const sermonBySlugQuery = groq`
 `
 
 export const latestSermonsQuery = groq`
-  *[_type == "sermon"] | order(date desc) [0...12]{
+  *[_type == "sermon" && defined(slug.current)] | order(date desc) [0...12]{
     _id, title, slug, date, category, preacher, bibleText, youtubeUrl, thumbnail
   }
 `
 
 export const sermonsCountQuery = groq`
-  count(*[_type == "sermon"])
+  count(*[_type == "sermon" && defined(slug.current)])
 `
 
 export const sermonsCountByCategoryQuery = groq`
-  count(*[_type == "sermon" && category == $category])
+  count(*[_type == "sermon" && category == $category && defined(slug.current)])
 `
 
 // ─── 공지사항 ────────────────────────────────────────────────
 
 export const noticesQuery = groq`
-  *[_type == "notice"] | order(isPinned desc, publishedAt desc) [$start...$end]{
+  *[_type == "notice" && defined(slug.current)] | order(isPinned desc, publishedAt desc) [$start...$end]{
     _id, title, slug, category, publishedAt, isPinned,
     "excerpt": pt::text(body)
   }
@@ -85,13 +85,13 @@ export const noticeBySlugQuery = groq`
 `
 
 export const latestNoticesQuery = groq`
-  *[_type == "notice"] | order(isPinned desc, publishedAt desc) [0...20]{
+  *[_type == "notice" && defined(slug.current)] | order(isPinned desc, publishedAt desc) [0...20]{
     _id, title, slug, category, publishedAt, isPinned
   }
 `
 
 export const noticesCountQuery = groq`
-  count(*[_type == "notice"])
+  count(*[_type == "notice" && defined(slug.current)])
 `
 
 // ─── 주보 ────────────────────────────────────────────────────
@@ -118,7 +118,7 @@ export const latestBulletinQuery = groq`
 `
 
 export const latestSermonsForSidebarQuery = groq`
-  *[_type == "sermon"] | order(date desc) [0...3]{
+  *[_type == "sermon" && defined(slug.current)] | order(date desc) [0...3]{
     _id, title, slug, date
   }
 `
@@ -130,7 +130,7 @@ export const bulletinsCountQuery = groq`
 // ─── 사진앨범 ────────────────────────────────────────────────
 
 export const albumsQuery = groq`
-  *[_type == "album"] | order(date desc) [$start...$end]{
+  *[_type == "album" && defined(slug.current)] | order(date desc) [$start...$end]{
     _id, title, slug, date, description,
     "coverImage": images[0],
     "imageCount": count(images)
@@ -142,13 +142,13 @@ export const albumBySlugQuery = groq`
 `
 
 export const albumsCountQuery = groq`
-  count(*[_type == "album"])
+  count(*[_type == "album" && defined(slug.current)])
 `
 
 // ─── 기도편지 ────────────────────────────────────────────────
 
 export const prayerLettersQuery = groq`
-  *[_type == "prayerLetter"] | order(publishedAt desc) [$start...$end]{
+  *[_type == "prayerLetter" && defined(slug.current)] | order(publishedAt desc) [$start...$end]{
     _id, title, slug, publishedAt
   }
 `
@@ -164,7 +164,7 @@ export const prayerLetterBySlugQuery = groq`
 `
 
 export const prayerLettersCountQuery = groq`
-  count(*[_type == "prayerLetter"])
+  count(*[_type == "prayerLetter" && defined(slug.current)])
 `
 
 // ─── 새가족 ──────────────────────────────────────────────────

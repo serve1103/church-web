@@ -20,7 +20,7 @@ const NoticeListBlock = async ({ block }: NoticeListBlockProps) => {
   try {
     const result = await sanityFetch({ query: latestNoticesQuery });
     const data = result.data as Notice[];
-    notices = (data ?? []).slice(0, count);
+    notices = (data ?? []).filter((n) => n.slug?.current).slice(0, count);
   } catch {
     return null;
   }
