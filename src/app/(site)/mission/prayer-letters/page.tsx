@@ -39,8 +39,8 @@ export default async function PrayerLettersPage({ searchParams }: PageProps) {
     sanityFetch({ query: prayerLettersCountQuery }),
   ]);
 
-  const letters = lettersResult.data as PrayerLetterListItem[];
-  const totalCount = countResult.data as number;
+  const letters = (lettersResult.data as PrayerLetterListItem[] | null) ?? [];
+  const totalCount = (countResult.data as number | null) ?? 0;
   const totalPages = Math.ceil(totalCount / PER_PAGE);
 
   return (

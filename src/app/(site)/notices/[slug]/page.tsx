@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PortableText } from "next-sanity";
 import { sanityFetch } from "@/sanity/lib/live";
 import { noticeBySlugQuery, allNoticeSlugsQuery } from "@/sanity/lib/queries";
 import { client } from "@/sanity/lib/client";
 import { formatDate } from "@/lib/date";
 import { ChevronLeft, Download } from "lucide-react";
+import PortableTextRenderer from "@/components/ui/PortableTextRenderer";
 import type { Metadata } from "next";
 import type { Notice } from "@/types/sanity";
 
@@ -88,11 +88,7 @@ const NoticeDetailPage = async ({
       </header>
 
       {/* Body */}
-      {notice.body && (
-        <div className="[&_a]:text-primary-light [&_a]:underline [&_em]:italic [&_li]:mb-1 [&_ol]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_p]:text-text-secondary [&_strong]:font-bold [&_strong]:text-text [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6">
-          <PortableText value={notice.body} />
-        </div>
-      )}
+      {notice.body && <PortableTextRenderer value={notice.body} />}
 
       {/* Attachments */}
       {notice.attachments && notice.attachments.length > 0 && (

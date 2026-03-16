@@ -33,7 +33,7 @@ const StaffBlock = ({ block }: StaffBlockProps) => {
                 ) : (
                   <div className="flex h-full w-full items-center justify-center">
                     <span className="text-4xl font-light text-primary/30">
-                      {staff.name.charAt(0)}
+                      {staff.name?.charAt(0) ?? ""}
                     </span>
                   </div>
                 )}

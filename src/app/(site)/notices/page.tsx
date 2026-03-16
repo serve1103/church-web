@@ -33,8 +33,8 @@ const NoticesPage = async ({
     sanityFetch({ query: noticesCountQuery }),
   ]);
 
-  const notices = noticesResult.data as Notice[];
-  const totalCount = countResult.data as number;
+  const notices = (noticesResult.data as Notice[] | null) ?? [];
+  const totalCount = (countResult.data as number | null) ?? 0;
   const totalPages = Math.ceil(totalCount / PER_PAGE);
 
   return (

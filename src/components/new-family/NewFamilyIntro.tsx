@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { PortableText } from "next-sanity";
 import { urlFor } from "@/sanity/lib/image";
+import PortableTextRenderer from "@/components/ui/PortableTextRenderer";
 import type { NewFamilySettings } from "@/types/sanity";
 
 interface NewFamilyIntroProps {
@@ -22,9 +22,7 @@ const NewFamilyIntro = ({ settings }: NewFamilyIntroProps) => {
       {welcomeMessage && welcomeMessage.length > 0 && (
         <section className="mb-10">
           <div className="mx-auto max-w-3xl">
-            <div className="prose-custom [&_p]:mb-4 [&_p]:leading-relaxed [&_p]:text-text-secondary [&_strong]:font-bold [&_strong]:text-text [&_em]:italic [&_a]:text-primary-light [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-primary [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mb-1 [&_li]:text-text-secondary [&_h3]:mb-3 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-text [&_h4]:mb-2 [&_h4]:text-lg [&_h4]:font-semibold [&_h4]:text-text [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-text-secondary">
-              <PortableText value={welcomeMessage} />
-            </div>
+            <PortableTextRenderer value={welcomeMessage} />
           </div>
         </section>
       )}
@@ -78,7 +76,7 @@ const NewFamilyIntro = ({ settings }: NewFamilyIntroProps) => {
                   ) : (
                     <div className="flex h-full w-full items-center justify-center">
                       <span className="text-2xl font-light text-primary/30">
-                        {staff.name.charAt(0)}
+                        {staff.name?.charAt(0) ?? ""}
                       </span>
                     </div>
                   )}

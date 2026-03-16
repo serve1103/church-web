@@ -38,8 +38,8 @@ const BulletinsPage = async ({
     }),
   ]);
 
-  const bulletins = bulletinsResult.data as Bulletin[];
-  const totalCount = countResult.data as number;
+  const bulletins = (bulletinsResult.data as Bulletin[] | null) ?? [];
+  const totalCount = (countResult.data as number | null) ?? 0;
   const totalPages = Math.ceil(totalCount / PER_PAGE);
 
   return (

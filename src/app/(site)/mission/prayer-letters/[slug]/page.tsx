@@ -6,8 +6,8 @@ import { prayerLetterBySlugQuery, allPrayerLetterSlugsQuery } from "@/sanity/lib
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { formatDate } from "@/lib/date";
-import { PortableText } from "next-sanity";
 import { ChevronLeft } from "lucide-react";
+import PortableTextRenderer from "@/components/ui/PortableTextRenderer";
 import type { Metadata } from "next";
 import type { PrayerLetter } from "@/types/sanity";
 
@@ -76,18 +76,14 @@ export default async function PrayerLetterDetailPage({ params }: PageProps) {
       </div>
 
       {/* Body */}
-      {letterData.body && (
-        <div className="[&_a]:text-primary-light [&_a]:underline [&_em]:italic [&_li]:mb-1 [&_ol]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_p]:text-text-secondary [&_strong]:font-bold [&_strong]:text-text [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6">
-          <PortableText value={letterData.body} />
-        </div>
-      )}
+      {letterData.body && <PortableTextRenderer value={letterData.body} />}
 
       {/* Images */}
       {letterData.images && letterData.images.length > 0 && (
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           {letterData.images.map((image, index) => (
             <div
-              key={image.asset._ref}
+              key={image.asset?._ref ?? index}
               className="relative aspect-[4/3] overflow-hidden rounded-xl"
             >
               <Image

@@ -42,8 +42,8 @@ export default async function AlbumsPage({ searchParams }: PageProps) {
     sanityFetch({ query: albumsCountQuery }),
   ]);
 
-  const albums = albumsResult.data as AlbumListItem[];
-  const totalCount = countResult.data as number;
+  const albums = (albumsResult.data as AlbumListItem[] | null) ?? [];
+  const totalCount = (countResult.data as number | null) ?? 0;
   const totalPages = Math.ceil(totalCount / PER_PAGE);
 
   return (

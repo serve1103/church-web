@@ -17,7 +17,7 @@ const ImageGalleryBlock = ({ block }: ImageGalleryBlockProps) => {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {block.images.map((image, idx) => (
             <div
-              key={image.asset._ref}
+              key={image.asset?._ref ?? idx}
               className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-gray-100"
             >
               <Image
