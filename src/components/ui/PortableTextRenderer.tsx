@@ -2,30 +2,55 @@ import { PortableText, type PortableTextComponents } from "next-sanity";
 import type { PortableTextBlock } from "next-sanity";
 import type { ReactNode } from "react";
 
-/** decorator mark를 인라인 스타일 span으로 렌더링하는 헬퍼 */
-const mark =
-  (className: string) =>
-  ({ children }: { children: ReactNode }) => (
-    <span className={className}>{children}</span>
-  );
+/* ── 색상/크기 매핑 (annotation value → Tailwind 클래스) ── */
+const TEXT_COLOR_CLASS: Record<string, string> = {
+  primary: "text-primary",
+  blue: "text-primary-light",
+  accent: "text-accent",
+  red: "text-red-600",
+  gray: "text-text-secondary",
+};
+
+const HIGHLIGHT_CLASS: Record<string, string> = {
+  yellow: "bg-yellow-200",
+  blue: "bg-blue-200",
+  green: "bg-green-200",
+  pink: "bg-red-200",
+};
+
+const FONT_SIZE_CLASS: Record<string, string> = {
+  small: "text-sm",
+  large: "text-xl",
+  xlarge: "text-2xl",
+};
+
+const Span = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className: string;
+}) => <span className={className}>{children}</span>;
 
 const components: PortableTextComponents = {
   marks: {
-    // ── 글자 색상 ──
-    "color-primary": mark("text-primary"),
-    "color-blue": mark("text-primary-light"),
-    "color-accent": mark("text-accent"),
-    "color-red": mark("text-red-600"),
-    "color-gray": mark("text-text-secondary"),
-    // ── 형광펜 ──
-    "highlight-yellow": mark("bg-yellow-200 rounded-sm px-0.5"),
-    "highlight-blue": mark("bg-blue-200 rounded-sm px-0.5"),
-    "highlight-green": mark("bg-green-200 rounded-sm px-0.5"),
-    "highlight-pink": mark("bg-red-200 rounded-sm px-0.5"),
-    // ── 글자 크기 ──
-    "text-large": mark("text-xl"),
-    "text-xlarge": mark("text-2xl"),
-    "text-small": mark("text-sm"),
+    textColor: ({ children, value }) => (
+      <Span className={TEXT_COLOR_CLASS[value?.color] ?? ""}>
+        {children}
+      </Span>
+    ),
+    highlight: ({ children, value }) => (
+      <Span
+        className={`${HIGHLIGHT_CLASS[value?.color] ?? "bg-yellow-200"} rounded-sm px-0.5`}
+      >
+        {children}
+      </Span>
+    ),
+    fontSize: ({ children, value }) => (
+      <Span className={FONT_SIZE_CLASS[value?.size] ?? ""}>
+        {children}
+      </Span>
+    ),
   },
 };
 

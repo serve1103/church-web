@@ -1,10 +1,75 @@
 import { defineArrayMember, defineType } from 'sanity'
 import type { ReactNode } from 'react'
 
-/* Studio 에디터 미리보기 컴포넌트 (decorator용) */
-const dec = (style: Record<string, string>) =>
-  ({ children }: { children: ReactNode }) =>
-    <span style={style}>{children}</span>
+/* ── Sanity Studio 도구모음 아이콘 ── */
+const ColorIcon = () => (
+  <span style={{ fontWeight: 700, color: '#1e3a5f' }}>A</span>
+)
+const HighlightIcon = () => (
+  <span style={{ fontWeight: 700, background: '#fef08a', borderRadius: 2, padding: '0 3px' }}>H</span>
+)
+const FontSizeIcon = () => (
+  <span style={{ fontWeight: 700, fontSize: '1.1em' }}>T</span>
+)
+
+/* ── 색상 프리셋 ── */
+const TEXT_COLORS = [
+  { title: '남색 (Primary)', value: 'primary' },
+  { title: '파랑', value: 'blue' },
+  { title: '금색 (Accent)', value: 'accent' },
+  { title: '빨강', value: 'red' },
+  { title: '회색', value: 'gray' },
+]
+
+const HIGHLIGHT_COLORS = [
+  { title: '노랑', value: 'yellow' },
+  { title: '연파랑', value: 'blue' },
+  { title: '연초록', value: 'green' },
+  { title: '연빨강', value: 'pink' },
+]
+
+const FONT_SIZES = [
+  { title: '작게 (14px)', value: 'small' },
+  { title: '크게 (20px)', value: 'large' },
+  { title: '아주 크게 (24px)', value: 'xlarge' },
+]
+
+/* ── Studio 에디터 미리보기 컴포넌트 ── */
+const COLOR_MAP: Record<string, string> = {
+  primary: '#1e3a5f',
+  blue: '#4a90d9',
+  accent: '#c8a951',
+  red: '#dc2626',
+  gray: '#6b7280',
+}
+
+const HIGHLIGHT_COLOR_MAP: Record<string, string> = {
+  yellow: '#fef08a',
+  blue: '#bfdbfe',
+  green: '#bbf7d0',
+  pink: '#fecaca',
+}
+
+const FONT_SIZE_STYLE: Record<string, string> = {
+  small: '0.875em',
+  large: '1.25em',
+  xlarge: '1.5em',
+}
+
+const TextColorPreview = (props: { children: ReactNode; value?: { color?: string } }) => {
+  const hex = COLOR_MAP[props.value?.color ?? ''] ?? 'inherit'
+  return <span style={{ color: hex }}>{props.children}</span>
+}
+
+const HighlightPreview = (props: { children: ReactNode; value?: { color?: string } }) => {
+  const hex = HIGHLIGHT_COLOR_MAP[props.value?.color ?? ''] ?? '#fef08a'
+  return <span style={{ backgroundColor: hex, borderRadius: 2, padding: '0 2px' }}>{props.children}</span>
+}
+
+const FontSizePreview = (props: { children: ReactNode; value?: { size?: string } }) => {
+  const fs = FONT_SIZE_STYLE[props.value?.size ?? ''] ?? 'inherit'
+  return <span style={{ fontSize: fs }}>{props.children}</span>
+}
 
 export const portableText = defineType({
   name: 'portableText',
@@ -25,81 +90,6 @@ export const portableText = defineType({
           { title: '굵게', value: 'strong' },
           { title: '기울임', value: 'em' },
           { title: '밑줄', value: 'underline' },
-          // ── 글자 색상 ──
-          {
-            title: '남색',
-            value: 'color-primary',
-            icon: () => <span style={{ color: '#1e3a5f', fontWeight: 700 }}>A</span>,
-            component: dec({ color: '#1e3a5f' }),
-          },
-          {
-            title: '파랑',
-            value: 'color-blue',
-            icon: () => <span style={{ color: '#4a90d9', fontWeight: 700 }}>A</span>,
-            component: dec({ color: '#4a90d9' }),
-          },
-          {
-            title: '금색',
-            value: 'color-accent',
-            icon: () => <span style={{ color: '#c8a951', fontWeight: 700 }}>A</span>,
-            component: dec({ color: '#c8a951' }),
-          },
-          {
-            title: '빨강',
-            value: 'color-red',
-            icon: () => <span style={{ color: '#dc2626', fontWeight: 700 }}>A</span>,
-            component: dec({ color: '#dc2626' }),
-          },
-          {
-            title: '회색',
-            value: 'color-gray',
-            icon: () => <span style={{ color: '#6b7280', fontWeight: 700 }}>A</span>,
-            component: dec({ color: '#6b7280' }),
-          },
-          // ── 형광펜 ──
-          {
-            title: '형광 노랑',
-            value: 'highlight-yellow',
-            icon: () => <span style={{ background: '#fef08a', padding: '0 2px' }}>H</span>,
-            component: dec({ backgroundColor: '#fef08a', borderRadius: '2px', padding: '0 2px' }),
-          },
-          {
-            title: '형광 파랑',
-            value: 'highlight-blue',
-            icon: () => <span style={{ background: '#bfdbfe', padding: '0 2px' }}>H</span>,
-            component: dec({ backgroundColor: '#bfdbfe', borderRadius: '2px', padding: '0 2px' }),
-          },
-          {
-            title: '형광 초록',
-            value: 'highlight-green',
-            icon: () => <span style={{ background: '#bbf7d0', padding: '0 2px' }}>H</span>,
-            component: dec({ backgroundColor: '#bbf7d0', borderRadius: '2px', padding: '0 2px' }),
-          },
-          {
-            title: '형광 빨강',
-            value: 'highlight-pink',
-            icon: () => <span style={{ background: '#fecaca', padding: '0 2px' }}>H</span>,
-            component: dec({ backgroundColor: '#fecaca', borderRadius: '2px', padding: '0 2px' }),
-          },
-          // ── 글자 크기 ──
-          {
-            title: '크게',
-            value: 'text-large',
-            icon: () => <span style={{ fontSize: '1.1em', fontWeight: 700 }}>T+</span>,
-            component: dec({ fontSize: '1.25em' }),
-          },
-          {
-            title: '아주 크게',
-            value: 'text-xlarge',
-            icon: () => <span style={{ fontSize: '1.3em', fontWeight: 700 }}>T++</span>,
-            component: dec({ fontSize: '1.5em' }),
-          },
-          {
-            title: '작게',
-            value: 'text-small',
-            icon: () => <span style={{ fontSize: '0.85em' }}>T-</span>,
-            component: dec({ fontSize: '0.875em' }),
-          },
         ],
         annotations: [
           {
@@ -113,6 +103,72 @@ export const portableText = defineType({
                 title: 'URL',
                 validation: (rule) =>
                   rule.uri({ allowRelative: true, scheme: ['http', 'https', 'mailto', 'tel'] }),
+              },
+            ],
+          },
+          {
+            name: 'textColor',
+            type: 'object',
+            title: '글자 색상',
+            icon: ColorIcon,
+            components: {
+              annotation: TextColorPreview,
+            },
+            fields: [
+              {
+                name: 'color',
+                type: 'string',
+                title: '색상 선택',
+                options: {
+                  list: TEXT_COLORS,
+                  layout: 'radio',
+                },
+                initialValue: 'primary',
+                validation: (rule) => rule.required(),
+              },
+            ],
+          },
+          {
+            name: 'highlight',
+            type: 'object',
+            title: '형광펜',
+            icon: HighlightIcon,
+            components: {
+              annotation: HighlightPreview,
+            },
+            fields: [
+              {
+                name: 'color',
+                type: 'string',
+                title: '색상 선택',
+                options: {
+                  list: HIGHLIGHT_COLORS,
+                  layout: 'radio',
+                },
+                initialValue: 'yellow',
+                validation: (rule) => rule.required(),
+              },
+            ],
+          },
+          {
+            name: 'fontSize',
+            type: 'object',
+            title: '글자 크기',
+            icon: FontSizeIcon,
+            components: {
+              annotation: FontSizePreview,
+            },
+            fields: [
+              {
+                name: 'size',
+                type: 'string',
+                title: '크기 선택',
+                options: {
+                  list: FONT_SIZES,
+                  layout: 'radio',
+                },
+                initialValue: 'large',
+                validation: (rule) => rule.required(),
               },
             ],
           },
