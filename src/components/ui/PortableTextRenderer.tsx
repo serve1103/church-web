@@ -1,45 +1,31 @@
 import { PortableText, type PortableTextComponents } from "next-sanity";
 import type { PortableTextBlock } from "next-sanity";
+import type { ReactNode } from "react";
 
-const TEXT_COLOR_MAP: Record<string, string> = {
-  default: "",
-  primary: "text-primary",
-  blue: "text-primary-light",
-  accent: "text-accent",
-  red: "text-red-600",
-  gray: "text-text-secondary",
-};
-
-const HIGHLIGHT_MAP: Record<string, string> = {
-  yellow: "bg-yellow-100",
-  blue: "bg-blue-100",
-  green: "bg-green-100",
-  pink: "bg-red-100",
-};
-
-const FONT_SIZE_MAP: Record<string, string> = {
-  small: "text-sm",
-  normal: "text-base",
-  large: "text-xl",
-  xlarge: "text-2xl",
-};
+/** decorator mark를 인라인 스타일 span으로 렌더링하는 헬퍼 */
+const mark =
+  (className: string) =>
+  ({ children }: { children: ReactNode }) => (
+    <span className={className}>{children}</span>
+  );
 
 const components: PortableTextComponents = {
   marks: {
-    textColor: ({ children, value }) => {
-      const cls = TEXT_COLOR_MAP[value?.value ?? "default"] ?? "";
-      return cls ? <span className={cls}>{children}</span> : <>{children}</>;
-    },
-    highlight: ({ children, value }) => {
-      const cls = HIGHLIGHT_MAP[value?.value ?? "yellow"] ?? "bg-yellow-100";
-      return (
-        <span className={`${cls} rounded-sm px-0.5`}>{children}</span>
-      );
-    },
-    fontSize: ({ children, value }) => {
-      const cls = FONT_SIZE_MAP[value?.value ?? "normal"] ?? "";
-      return cls ? <span className={cls}>{children}</span> : <>{children}</>;
-    },
+    // ── 글자 색상 ──
+    "color-primary": mark("text-primary"),
+    "color-blue": mark("text-primary-light"),
+    "color-accent": mark("text-accent"),
+    "color-red": mark("text-red-600"),
+    "color-gray": mark("text-text-secondary"),
+    // ── 형광펜 ──
+    "highlight-yellow": mark("bg-yellow-200 rounded-sm px-0.5"),
+    "highlight-blue": mark("bg-blue-200 rounded-sm px-0.5"),
+    "highlight-green": mark("bg-green-200 rounded-sm px-0.5"),
+    "highlight-pink": mark("bg-red-200 rounded-sm px-0.5"),
+    // ── 글자 크기 ──
+    "text-large": mark("text-xl"),
+    "text-xlarge": mark("text-2xl"),
+    "text-small": mark("text-sm"),
   },
 };
 
